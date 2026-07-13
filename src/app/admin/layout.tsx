@@ -5,3 +5,8 @@ export default function AdminLayout({
 }) {
   return <>{children}</>;
 }
+export const metadata: Metadata = {
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
