@@ -18,8 +18,7 @@ export default function Hero() {
       <div className="absolute bottom-0 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-teal-50 blur-3xl opacity-70 -z-10" />
 
 
-     <div className="mx-auto grid w-full max-w-7xl min-w-0 items-center gap-16 px-6 py-10 md:py-24 lg:grid-cols-2">
-
+    <div className="mx-auto grid w-full max-w-7xl min-w-0 overflow-hidden items-center gap-16 px-4 py-10 md:px-6 md:py-24 lg:grid-cols-2">
 
         {/* Linke Seite */}
         <HeroContent />

@@ -14,7 +14,7 @@ export default function HeroDashboard() {
       initial={{ opacity: 0, x: 40 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.8 }}
-className="relative mx-auto w-full max-w-[560px] min-w-0"   >
+className="relative mx-auto w-full max-w-[560px] overflow-hidden"   >
       {/* Glow */}
       <div className="absolute inset-0 -z-10 rounded-[40px] bg-teal-200/40 blur-3xl" />
 
@@ -52,10 +52,12 @@ className="relative mx-auto w-full max-w-[560px] min-w-0"   >
           duration: 5,
           repeat: Infinity,
         }}
-        className="
-          absolute
-          -left-6
-          top-10
+       className="
+  absolute
+  hidden
+  md:block
+  -left-6
+  top-10
           rounded-2xl
           bg-white
           px-4
@@ -91,9 +93,11 @@ className="relative mx-auto w-full max-w-[560px] min-w-0"   >
           repeat: Infinity,
         }}
         className="
-          absolute
-          right-0
-          top-1/3
+  absolute
+  hidden
+  md:block
+  -right-5
+  top-1/3
           rounded-2xl
           bg-white
           px-4
@@ -132,9 +136,11 @@ className="relative mx-auto w-full max-w-[560px] min-w-0"   >
           repeat: Infinity,
         }}
         className="
-          absolute
-          bottom-8
-          left-8
+  absolute
+  hidden
+  md:block
+  bottom-8
+  left-8
           rounded-2xl
           bg-white
           px-4
