@@ -2,84 +2,130 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import {
+  CheckCircle2,
+} from "lucide-react";
+
+const features = [
+  "Wunschwohnung und Suchkriterien hinterlegt",
+  "Persönliche Daten zentral verwaltet",
+  "Unterlagen für Bewerbungen vorbereitet",
+  "Bereit für professionelle Bewerbungen",
+];
 
 export default function ProfileSection() {
+  return (
+    <section className="bg-slate-50 px-6 py-24">
 
-return (
-
-<section className="bg-white px-6 py-24">
-
-<div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-center">
+      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-center">
 
 
-<motion.div
-initial={{opacity:0,x:-30}}
-whileInView={{opacity:1,x:0}}
-viewport={{once:true}}
->
+        {/* Bild */}
+        <motion.div
+          initial={{
+            opacity: 0,
+            x: -30,
+          }}
+          whileInView={{
+            opacity: 1,
+            x: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
+        >
 
-<Image
-src="/profile-mietgate.jpg"
-alt="MietGate Bewerberprofil"
-width={800}
-height={600}
-className="rounded-3xl shadow-xl"
-/>
+          <Image
+            src="/profile-mietgate.jpg"
+            alt="MietGate Bewerberprofil"
+            width={800}
+            height={600}
+            className="rounded-3xl shadow-xl"
+          />
 
-</motion.div>
-
-
-
-<div>
-
-<h2 className="text-4xl font-bold text-slate-900">
-Dein persönliches
-<br />
-MietGate Bewerberprofil.
-</h2>
-
-
-<p className="mt-6 text-lg text-slate-600">
-Alle wichtigen Informationen werden übersichtlich vorbereitet,
-damit deine Bewerbungen professionell auftreten.
-</p>
+        </motion.div>
 
 
 
-<div className="mt-8 rounded-3xl bg-slate-50 p-6">
+        {/* Text */}
+        <motion.div
+          initial={{
+            opacity: 0,
+            x: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            x: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
+        >
+
+          <p className="text-sm font-semibold text-teal-600">
+            Dein Bewerberprofil
+          </p>
 
 
-<p className="text-sm text-slate-500">
-Dein MietGate Profil
-</p>
+          <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+            Ein Profil.
+            <br />
+            Professionelle Bewerbungen.
+          </h2>
 
 
-<div className="mt-5 space-y-3">
-
-<p>? Wunschwohnung hinterlegt</p>
-
-<p>? Suchkriterien gespeichert</p>
-
-<p>? Dokumente optional bereitgestellt</p>
-
-<p>? Bereit für Bewerbungen</p>
+          <p className="mt-6 text-lg text-slate-600">
+            Hinterlege deine wichtigsten Informationen einmalig.
+            MietGate nutzt dein Profil, um Bewerbungen professionell vorzubereiten.
+          </p>
 
 
-</div>
+
+          <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm">
 
 
-</div>
+            <p className="text-sm font-semibold text-slate-500">
+              Dein MietGate Profil
+            </p>
 
 
-</div>
+            <div className="mt-5 space-y-4">
+
+              {features.map((feature) => (
+                <div
+                  key={feature}
+                  className="flex items-center gap-3"
+                >
+
+                  <CheckCircle2
+                    size={22}
+                    className="text-teal-600"
+                  />
+
+                  <span className="text-slate-700">
+                    {feature}
+                  </span>
+
+                </div>
+              ))}
+
+            </div>
 
 
-</div>
+          </div>
 
 
-</section>
+        </motion.div>
 
-);
 
+      </div>
+
+    </section>
+  );
 }
-
