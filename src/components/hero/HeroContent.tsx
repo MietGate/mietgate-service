@@ -15,16 +15,15 @@ export default function HeroContent() {
         🇩🇪 Deutschlands moderner Mietbewerbungsservice
       </div>
 
-      <h1 className="mt-8 text-5xl font-bold leading-tight text-slate-900 md:text-6xl">
-        Wohnung finden.
+      
+        Wohnung finden.<h1 className="mt-8 text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
         <br />
         <span className="text-teal-600">
           Ohne Bewerbungsstress.
         </span>
       </h1>
 
-      <p className="mt-6 text-xl leading-8 text-slate-600">
-        MietGate übernimmt deine Mietbewerbungen, verwaltet deine Unterlagen
+<p className="mt-6 text-lg leading-7 text-slate-600 sm:text-xl sm:leading-8">        MietGate übernimmt deine Mietbewerbungen, verwaltet deine Unterlagen
         und erhöht deine Chancen auf Besichtigungstermine.
       </p>
 
