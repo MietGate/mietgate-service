@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { Menu } from "lucide-react";
@@ -23,7 +23,7 @@ export default function Navbar() {
         </Link>
 
 
-        {/* Navigation Desktop */}
+        {/* Desktop Navigation */}
         <nav className="hidden items-center gap-8 md:flex">
 
           <Link
@@ -50,7 +50,7 @@ export default function Navbar() {
         </nav>
 
 
-        {/* Buttons Desktop */}
+        {/* Aktionen Desktop */}
         <div className="hidden items-center gap-4 md:flex">
 
           <button className="text-sm font-semibold text-slate-700">
@@ -76,10 +76,11 @@ export default function Navbar() {
         </div>
 
 
-        {/* Mobile */}
+        {/* Mobile Menü */}
         <button className="md:hidden">
           <Menu size={26} />
         </button>
+
 
       </div>
     </header>
