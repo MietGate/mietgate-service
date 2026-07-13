@@ -8,6 +8,7 @@ import BenefitsSection from "./components/BenefitsSection";
 import PricingSection from "./components/PricingSection";
 import FAQSection from "./components/FAQSection";
 import CTASection from "./components/CTASection";
+import TrustSection from "./components/TrustSection";
 
 export default function Home() {
   return (
