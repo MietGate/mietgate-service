@@ -14,9 +14,29 @@ export default function HeroDashboard() {
       initial={{ opacity: 0, x: 40 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.8 }}
-className="relative mx-auto w-full max-w-[560px] overflow-hidden"   >
-      {/* Glow */}
-      <div className="absolute inset-0 -z-10 rounded-[40px] bg-teal-200/40 blur-3xl" />
+      className="
+        relative
+        flex
+        w-full
+        max-w-[560px]
+        min-w-0
+        justify-center
+      "
+    >
+
+      {/* Glow nur Desktop */}
+      <div className="
+        pointer-events-none
+        absolute
+        inset-0
+        -z-10
+        hidden
+        rounded-[40px]
+        bg-teal-200/40
+        blur-3xl
+        md:block
+      " />
+
 
       {/* Dashboard */}
       <motion.div
@@ -28,17 +48,36 @@ className="relative mx-auto w-full max-w-[560px] overflow-hidden"   >
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl"
+        className="
+          w-full
+          max-w-full
+          overflow-hidden
+          rounded-3xl
+          border
+          border-slate-200
+          bg-white
+          shadow-2xl
+        "
       >
+
         <Image
           src="/hero-dashboard.png"
           alt="MietGate Dashboard"
           width={900}
           height={700}
           priority
-          className="w-full max-w-full h-auto object-contain"
+          className="
+            block
+            h-auto
+            w-full
+            max-w-full
+            object-contain
+          "
         />
+
       </motion.div>
+
+
 
       {/* Dokumente */}
       <motion.div
@@ -52,21 +91,24 @@ className="relative mx-auto w-full max-w-[560px] overflow-hidden"   >
           duration: 5,
           repeat: Infinity,
         }}
-       className="
-  absolute
-  hidden
-  md:block
-  -left-6
-  top-10
+        className="
+          absolute
+          left-0
+          top-10
+          hidden
           rounded-2xl
           bg-white
           px-4
           py-3
           shadow-xl
+          md:block
         "
       >
         <div className="flex items-center gap-3">
-          <FileText className="text-teal-600" size={20} />
+          <FileText
+            className="text-teal-600"
+            size={20}
+          />
 
           <div>
             <p className="text-xs text-slate-500">
@@ -79,6 +121,8 @@ className="relative mx-auto w-full max-w-[560px] overflow-hidden"   >
           </div>
         </div>
       </motion.div>
+
+
 
       {/* Bewerbungen */}
       <motion.div
@@ -93,16 +137,16 @@ className="relative mx-auto w-full max-w-[560px] overflow-hidden"   >
           repeat: Infinity,
         }}
         className="
-  absolute
-  hidden
-  md:block
-  -right-5
-  top-1/3
+          absolute
+          right-0
+          top-1/3
+          hidden
           rounded-2xl
           bg-white
           px-4
           py-3
           shadow-xl
+          md:block
         "
       >
         <div className="flex items-center gap-3">
@@ -123,6 +167,8 @@ className="relative mx-auto w-full max-w-[560px] overflow-hidden"   >
         </div>
       </motion.div>
 
+
+
       {/* Termin */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -136,16 +182,16 @@ className="relative mx-auto w-full max-w-[560px] overflow-hidden"   >
           repeat: Infinity,
         }}
         className="
-  absolute
-  hidden
-  md:block
-  bottom-8
-  left-8
+          absolute
+          bottom-8
+          left-8
+          hidden
           rounded-2xl
           bg-white
           px-4
           py-3
           shadow-xl
+          md:block
         "
       >
         <div className="flex items-center gap-3">
@@ -165,6 +211,8 @@ className="relative mx-auto w-full max-w-[560px] overflow-hidden"   >
           </div>
         </div>
       </motion.div>
+
+
     </motion.div>
   );
 }
