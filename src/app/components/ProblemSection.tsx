@@ -1,22 +1,27 @@
 ﻿"use client";
 
 import { motion } from "framer-motion";
+import {
+  Users,
+  Clock3,
+  FileText,
+} from "lucide-react";
 
 const problems = [
   {
-    icon: "ðŸ ",
+    icon: Users,
     title: "Zu viele Bewerber",
-    text: "Gute Mietwohnungen erhalten oft zahlreiche Anfragen. Ohne einen strukturierten Prozess wird man schnell Ã¼bersehen.",
+    text: "Gute Mietwohnungen erhalten oft zahlreiche Anfragen. Ohne einen strukturierten Prozess wird man schnell übersehen.",
   },
   {
-    icon: "â°",
+    icon: Clock3,
     title: "Zeitaufwand",
     text: "Wohnungssuche, Bewerbungen und Kommunikation kosten viele Stunden und Nerven.",
   },
   {
-    icon: "ðŸ“„",
+    icon: FileText,
     title: "Komplexe Bewerbung",
-    text: "Unterlagen, Profil und Kommunikation mÃ¼ssen professionell vorbereitet sein.",
+    text: "Unterlagen, Profil und Kommunikation müssen professionell vorbereitet sein.",
   },
 ];
 
@@ -26,15 +31,30 @@ export default function ProblemSection() {
 
       <div className="mx-auto max-w-7xl">
 
-        {/* Ãœberschrift */}
+        {/* Überschrift */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
           className="mx-auto max-w-3xl text-center"
         >
-          <h2 className="text-4xl font-bold tracking-tight text-slate-900">
+
+          <p className="text-sm font-semibold text-teal-600">
+            Die Herausforderung
+          </p>
+
+          <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
             Eine Wohnung zu finden
             <br />
             ist heute ein Vollzeitjob.
@@ -42,51 +62,77 @@ export default function ProblemSection() {
 
           <p className="mt-5 text-lg text-slate-600">
             Gute Wohnungen sind schnell vergeben.
-            Bewerber mÃ¼ssen reagieren, Ã¼berzeugen und den Ãœberblick behalten.
+            Bewerber müssen reagieren, überzeugen und den Überblick behalten.
           </p>
+
         </motion.div>
 
 
         {/* Karten */}
         <div className="mt-14 grid gap-8 md:grid-cols-3">
 
-          {problems.map((problem, index) => (
+          {problems.map((problem, index) => {
 
-            <motion.div
-              key={problem.title}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.15,
-              }}
-              className="
-                rounded-3xl
-                bg-white
-                p-8
-                shadow-sm
-                transition
-                hover:-translate-y-2
-                hover:shadow-xl
-              "
-            >
+            const Icon = problem.icon;
 
-              <div className="text-4xl">
-                {problem.icon}
-              </div>
+            return (
+              <motion.div
+                key={problem.title}
+                initial={{
+                  opacity: 0,
+                  y: 40,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.15,
+                }}
+                className="
+                  rounded-3xl
+                  bg-white
+                  p-8
+                  shadow-sm
+                  transition
+                  hover:-translate-y-2
+                  hover:shadow-xl
+                "
+              >
 
-              <h3 className="mt-6 text-xl font-semibold text-slate-900">
-                {problem.title}
-              </h3>
+                <div className="
+                  flex
+                  h-14
+                  w-14
+                  items-center
+                  justify-center
+                  rounded-2xl
+                  bg-teal-50
+                ">
+                  <Icon
+                    size={28}
+                    className="text-teal-600"
+                  />
+                </div>
 
-              <p className="mt-3 leading-relaxed text-slate-600">
-                {problem.text}
-              </p>
 
-            </motion.div>
+                <h3 className="mt-6 text-xl font-semibold text-slate-900">
+                  {problem.title}
+                </h3>
 
-          ))}
+
+                <p className="mt-3 leading-relaxed text-slate-600">
+                  {problem.text}
+                </p>
+
+              </motion.div>
+            );
+
+          })}
 
         </div>
 
@@ -95,4 +141,3 @@ export default function ProblemSection() {
     </section>
   );
 }
-
