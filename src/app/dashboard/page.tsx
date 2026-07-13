@@ -4,6 +4,17 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { motion } from "framer-motion";
 
+import DashboardShell from "@/components/layout/DashboardShell";
+import Card from "@/components/ui/Card";
+import Progress from "@/components/ui/Progress";
+import Badge from "@/components/ui/Badge";
+
+import {
+  FileText,
+  Home,
+  ClipboardCheck,
+} from "lucide-react";
+
 
 export default function DashboardPage() {
 
@@ -30,12 +41,11 @@ export default function DashboardPage() {
 
       if(user){
 
-
         const { data } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user.id)
-        .single();
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .single();
 
 
         if(data){
@@ -68,9 +78,9 @@ export default function DashboardPage() {
 
 
         const { data: docs } = await supabase
-        .from("documents")
-        .select("id")
-        .eq("user_id", user.id);
+          .from("documents")
+          .select("id")
+          .eq("user_id", user.id);
 
 
         setDocuments(docs?.length || 0);
@@ -78,13 +88,12 @@ export default function DashboardPage() {
 
 
         const { data: apps } = await supabase
-        .from("applications")
-        .select("id")
-        .eq("user_id", user.id);
+          .from("applications")
+          .select("id")
+          .eq("user_id", user.id);
 
 
         setApplications(apps?.length || 0);
-
 
       }
 
@@ -100,142 +109,152 @@ export default function DashboardPage() {
 
   return (
 
-    <main className="min-h-screen bg-slate-50 px-6 py-12">
+    <DashboardShell>
+
+      <motion.div
+        initial={{
+          opacity:0,
+          y:20
+        }}
+        animate={{
+          opacity:1,
+          y:0
+        }}
+      >
+
+        <h1 className="text-3xl font-bold text-slate-900">
+          Hallo {name || "MietGate Nutzer"}
+        </h1>
 
 
-      <div className="mx-auto max-w-6xl">
+        <p className="mt-2 text-slate-600">
+          Wir kümmern uns um deine Mietbewerbungen.
+        </p>
 
 
-        <motion.div
-        initial={{opacity:0,y:20}}
-        animate={{opacity:1,y:0}}
-        >
-
-
-          <h1 className="text-4xl font-bold text-slate-900">
-            Hallo {name || "??"}
-          </h1>
-
-
-          <p className="mt-3 text-slate-600">
-            Willkommen bei MietGate. Wir kümmern uns um deine Mietbewerbungen.
-          </p>
-
-
-        </motion.div>
-
-
-
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-
-
-          <DashboardCard
-          title="Suchprofil"
-          value={`${progress}%`}
-          text={completed ? "Abgeschlossen" : "Noch nicht abgeschlossen"}
-          />
-
-
-          <DashboardCard
-          title="Dokumente"
-          value={`${documents} / 5`}
-          text="Unterlagen hochladen"
-          />
-
-
-          <DashboardCard
-          title="Bewerbungen"
-          value={`${applications}`}
-          text="Aktive Mietbewerbungen"
-          />
-
-
-        </div>
+      </motion.div>
 
 
 
-        <div className="mt-10 rounded-3xl bg-white p-8 shadow-sm">
+      <div className="mt-8 grid gap-6 md:grid-cols-3">
 
 
-          <h2 className="text-xl font-bold">
-            Deine nächsten Schritte
-          </h2>
+        <Card className="p-6">
 
+          <div className="flex items-center justify-between">
 
-          <div className="mt-5 space-y-3 text-slate-600">
+            <Home className="text-teal-600"/>
 
-
-            <p>
-              {progress === 100 ? "✓ Suchprofil abgeschlossen" : "→ Suchprofil erstellen"}
-            </p>
-
-
-            <p>
-              {documents > 0 ? "✓ Dokumente hochgeladen" : "→ Dokumente hochladen"}
-            </p>
-
-
-            <p>
-              {applications > 0 ? "✓ Bewerbungen laufen" : "→ MietGate startet Bewerbungen"}
-            </p>
-
+            <Badge variant={completed ? "success" : "warning"}>
+              {completed ? "Fertig" : "Offen"}
+            </Badge>
 
           </div>
 
 
-        </div>
+          <h3 className="mt-5 font-semibold text-slate-700">
+            Suchprofil
+          </h3>
+
+
+          <div className="mt-4">
+            <Progress value={progress}/>
+          </div>
+
+
+        </Card>
+
+
+
+        <Card className="p-6">
+
+          <FileText className="text-teal-600"/>
+
+          <h3 className="mt-5 font-semibold text-slate-700">
+            Dokumente
+          </h3>
+
+
+          <p className="mt-3 text-3xl font-bold text-slate-900">
+            {documents}
+          </p>
+
+
+          <p className="text-sm text-slate-500">
+            Unterlagen vorhanden
+          </p>
+
+
+        </Card>
+
+
+
+        <Card className="p-6">
+
+          <ClipboardCheck className="text-teal-600"/>
+
+          <h3 className="mt-5 font-semibold text-slate-700">
+            Bewerbungen
+          </h3>
+
+
+          <p className="mt-3 text-3xl font-bold text-slate-900">
+            {applications}
+          </p>
+
+
+          <p className="text-sm text-slate-500">
+            laufende Bewerbungen
+          </p>
+
+
+        </Card>
 
 
       </div>
 
 
-    </main>
+
+      <Card className="mt-8 p-8">
+
+
+        <h2 className="text-xl font-bold text-slate-900">
+          Deine nächsten Schritte
+        </h2>
+
+
+        <div className="mt-5 space-y-3 text-slate-600">
+
+
+          <p>
+            {progress === 100
+              ? "✓ Suchprofil abgeschlossen"
+              : "→ Suchprofil vervollständigen"}
+          </p>
+
+
+          <p>
+            {documents > 0
+              ? "✓ Dokumente vorhanden"
+              : "→ Dokumente hochladen"}
+          </p>
+
+
+          <p>
+            {applications > 0
+              ? "✓ Bewerbungen laufen"
+              : "→ MietGate startet Bewerbungen"}
+          </p>
+
+
+        </div>
+
+
+      </Card>
+
+
+    </DashboardShell>
 
   );
-
-}
-
-
-
-function DashboardCard({
-  title,
-  value,
-  text
-}:{
-  title:string;
-  value:string;
-  text:string;
-}){
-
-
-return (
-
-<motion.div
-
-whileHover={{scale:1.03}}
-
-className="rounded-3xl bg-white p-6 shadow-sm"
-
->
-
-
-<h3 className="font-semibold text-slate-700">
-{title}
-</h3>
-
-
-<p className="mt-4 text-3xl font-bold text-teal-600">
-{value}
-</p>
-
-
-<p className="mt-2 text-sm text-slate-500">
-{text}
-</p>
-
-
-</motion.div>
-
-)
 
 }

@@ -1,91 +1,43 @@
 ﻿"use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import HeroContent from "@/components/hero/HeroContent";
+import HeroDashboard from "@/components/hero/HeroDashboard";
 
 export default function Hero() {
   return (
-    <section className="mx-auto grid max-w-7xl gap-12 px-6 py-24 lg:grid-cols-2 lg:items-center">
+    <section className="relative w-full max-w-full overflow-hidden bg-white">
 
-      <motion.div
-        initial={{opacity:0,y:30}}
-        animate={{opacity:1,y:0}}
-        transition={{duration:0.7}}
-      >
+      {/* Hintergrund */}
+      <div className="absolute inset-0 -z-20 bg-white" />
 
-        <h1 className="text-5xl font-bold leading-tight text-slate-900">
-          Du suchst eine Wohnung.
-          <br />
-          Wir übernehmen den Rest.
-        </h1>
+      <div className="absolute -left-32 top-20 h-96 w-96 rounded-full bg-teal-100 blur-3xl opacity-60 -z-10" />
 
-        <p className="mt-6 text-xl font-medium text-slate-700">
-          MietGate übernimmt deine Mietbewerbungen und begleitet dich bis zu deinen Besichtigungsterminen.
-        </p>
+      <div className="absolute right-0 top-0 h-[420px] w-[420px] rounded-full bg-cyan-100 blur-3xl opacity-50 -z-10" />
 
-        <p className="mt-5 max-w-xl text-lg text-slate-600">
-          Erstelle einmal dein Suchprofil und lehne dich zurück.
-          Wir kümmern uns um den Bewerbungsprozess, damit du Zeit sparst und bessere Chancen hast.
-        </p>
+      <div className="absolute bottom-0 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-teal-50 blur-3xl opacity-70 -z-10" />
 
 
-        <div className="mt-8 flex gap-4">
-
-          <button className="rounded-xl bg-teal-500 px-7 py-3 font-semibold text-white hover:bg-teal-600">
-            Suchprofil erstellen
-          </button>
-
-          <button className="rounded-xl border border-slate-300 px-7 py-3 font-semibold text-slate-700">
-            So funktioniert es
-          </button>
-
-        </div>
+     <div className="mx-auto grid w-full max-w-7xl min-w-0 items-center gap-16 px-6 py-10 md:py-24 lg:grid-cols-2">
 
 
-        <div className="mt-8 space-y-2 text-slate-600">
-
-          <p>? Keine eigenen Bewerbungen mehr schreiben</p>
-          <p>? Professionelles Bewerberprofil</p>
-          <p>? Garantierte Besichtigungstermine</p>
-
-        </div>
-
-      </motion.div>
+        {/* Linke Seite */}
+        <HeroContent />
 
 
-      <motion.div
-        initial={{opacity:0,scale:0.95}}
-        animate={{opacity:1,scale:1}}
-        transition={{duration:0.8}}
-        className="relative"
-      >
-
-        <Image
-          src="/hero-mietgate.jpg"
-          alt="MietGate Bewerbungsservice für Mietwohnungen"
-          width={800}
-          height={600}
-          className="rounded-3xl shadow-xl"
-        />
+        {/* Rechte Seite */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="order-last w-full lg:order-last"
+        >
+          <HeroDashboard />
+        </motion.div>
 
 
-        <div className="absolute bottom-8 left-8 rounded-2xl bg-white p-6 shadow-xl">
-
-          <p className="text-sm text-slate-500">
-            MietGate übernimmt für dich
-          </p>
-
-          <div className="mt-4 space-y-3 text-sm">
-            <p>? Suchprofil erstellt</p>
-            <p>? Bewerbungen übernommen</p>
-            <p>? Besichtigungen erhalten</p>
-          </div>
-
-        </div>
-
-      </motion.div>
+      </div>
 
     </section>
   );
 }
-
