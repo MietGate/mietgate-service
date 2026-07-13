@@ -12,10 +12,38 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  title: "MietGate | Dein Mietbewerbungsservice fÃ¼r Wohnungen",
+export const metadata: Metadata = {
+  title: "MietGate | Dein Mietbewerbungsservice",
   description:
-    "MietGate Ã¼bernimmt deine Mietbewerbungen. Erstelle dein Suchprofil und erhalte passende Besichtigungstermine fÃ¼r deine nÃ¤chste Wohnung.",
+    "MietGate übernimmt deine Mietbewerbungen. Erstelle dein Suchprofil und erhalte passende Besichtigungstermine für deine nächste Wohnung.",
+
+  metadataBase: new URL("https://service.mietgate.de"),
+
+  openGraph: {
+    title: "MietGate | Dein Mietbewerbungsservice",
+    description:
+      "Mietbewerbungen einfach verwalten. Der neue Standard für Mietbewerbungen.",
+    url: "https://service.mietgate.de",
+    siteName: "MietGate",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "MietGate",
+      },
+    ],
+    locale: "de_DE",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "MietGate | Dein Mietbewerbungsservice",
+    description:
+      "Mietbewerbungen einfach verwalten.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
@@ -25,11 +53,10 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="de"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }
-
