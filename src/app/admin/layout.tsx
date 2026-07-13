@@ -13,57 +13,40 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
- metadataBase: new URL("https://service.mietgate.de"),
-
-  title: "MietGate – Der neue Standard für Mietbewerbungen",
-
+  title: "MietGate | Dein Mietbewerbungsservice",
   description:
-    "MietGate übernimmt deine Mietbewerbungen. Erstelle dein Suchprofil und erhalte schneller Besichtigungstermine – ohne Bewerbungsstress.",
+    "MietGate übernimmt deine Mietbewerbungen. Erstelle dein Suchprofil und erhalte passende Besichtigungstermine für deine nächste Wohnung.",
 
-  keywords: [
-    "Mietbewerbung",
-    "Wohnung finden",
-    "Wohnung mieten",
-    "MietGate",
-    "Wohnungssuche",
-    "Besichtigung",
-    "Mietservice",
-    "Mietbewerbungen",
-  ],
-
-  alternates: {
-    canonical: "/",
-  },
+  metadataBase: new URL("https://service.mietgate.de"),
 
   openGraph: {
-    title: "MietGate – Der neue Standard für Mietbewerbungen",
+    title: "MietGate | Dein Mietbewerbungsservice",
     description:
-      "Wohnung finden. Ohne Bewerbungsstress. MietGate übernimmt deine Mietbewerbungen.",
+      "Mietbewerbungen einfach verwalten. Der neue Standard für Mietbewerbungen.",
     url: "https://service.mietgate.de",
     siteName: "MietGate",
-    locale: "de_DE",
-    type: "website",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "MietGate – Der neue Standard für Mietbewerbungen",
+        alt: "MietGate Mietbewerbungsservice",
       },
     ],
+    locale: "de_DE",
+    type: "website",
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "MietGate – Der neue Standard für Mietbewerbungen",
+    title: "MietGate | Dein Mietbewerbungsservice",
     description:
-      "Wohnung finden. Ohne Bewerbungsstress.",
+      "Mietbewerbungen einfach verwalten.",
     images: ["/og-image.png"],
   },
 
   icons: {
     icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
 };
@@ -78,9 +61,7 @@ export default function RootLayout({
       lang="de"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        {children}
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }
