@@ -1,41 +1,86 @@
-export default function AdminLayout({
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://mietgate.de"),
+
+  title: "MietGate – Der neue Standard für Mietbewerbungen",
+
+  description:
+    "MietGate übernimmt deine Mietbewerbungen. Erstelle dein Suchprofil und erhalte schneller Besichtigungstermine – ohne Bewerbungsstress.",
+
+  keywords: [
+    "Mietbewerbung",
+    "Wohnung finden",
+    "Wohnung mieten",
+    "MietGate",
+    "Wohnungssuche",
+    "Besichtigung",
+    "Mietservice",
+    "Mietbewerbungen",
+  ],
+
+  alternates: {
+    canonical: "/",
+  },
+
+  openGraph: {
+    title: "MietGate – Der neue Standard für Mietbewerbungen",
+    description:
+      "Wohnung finden. Ohne Bewerbungsstress. MietGate übernimmt deine Mietbewerbungen.",
+    url: "https://mietgate.de",
+    siteName: "MietGate",
+    locale: "de_DE",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "MietGate – Der neue Standard für Mietbewerbungen",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "MietGate – Der neue Standard für Mietbewerbungen",
+    description:
+      "Wohnung finden. Ohne Bewerbungsstress.",
+    images: ["/og-image.png"],
+  },
+
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+};
+
+export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <div className="min-h-screen bg-slate-100 flex">
-      <aside className="w-64 bg-slate-900 text-white p-6">
-
-        <h1 className="text-2xl font-bold">
-          MietGate Admin
-        </h1>
-
-        <nav className="mt-10 space-y-4">
-
-          <a href="/admin/dashboard" className="block">
-            Dashboard
-          </a>
-
-          <a href="/admin/kunden" className="block">
-            Kunden
-          </a>
-
-          <a href="/admin/bewerbungen" className="block">
-            Bewerbungen
-          </a>
-
-          <a href="/admin/einstellungen" className="block">
-            Einstellungen
-          </a>
-
-        </nav>
-
-      </aside>
-
-      <main className="flex-1 p-10">
+    <html
+      lang="de"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">
         {children}
-      </main>
-    </div>
+      </body>
+    </html>
   );
 }

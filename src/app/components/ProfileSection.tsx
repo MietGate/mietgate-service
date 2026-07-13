@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -8,9 +8,9 @@ import {
 
 const features = [
   "Wunschwohnung und Suchkriterien hinterlegt",
-  "Persönliche Daten zentral verwaltet",
-  "Unterlagen für Bewerbungen vorbereitet",
-  "Bereit für professionelle Bewerbungen",
+  "Pers�nliche Daten zentral verwaltet",
+  "Unterlagen f�r Bewerbungen vorbereitet",
+  "Bereit f�r professionelle Bewerbungen",
 ];
 
 export default function ProfileSection() {
@@ -20,8 +20,7 @@ export default function ProfileSection() {
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-center">
 
 
-        {/* Bild */}
-        <motion.div
+        {/* Bild */}`r`n        <motion.div className="order-2 lg:order-1"
           initial={{
             opacity: 0,
             x: -30,
@@ -50,8 +49,7 @@ export default function ProfileSection() {
 
 
 
-        {/* Text */}
-        <motion.div
+        {/* Text */}`r`n        <motion.div className="order-1 lg:order-2"
           initial={{
             opacity: 0,
             x: 30,
@@ -129,3 +127,4 @@ export default function ProfileSection() {
     </section>
   );
 }
+
