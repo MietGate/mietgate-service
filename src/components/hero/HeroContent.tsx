@@ -11,23 +11,33 @@ export default function HeroContent() {
       transition={{ duration: 0.7 }}
       className="max-w-xl"
     >
+
+      {/* Badge */}
       <div className="inline-flex items-center rounded-full border border-teal-100 bg-teal-50 px-4 py-2 text-sm font-semibold text-teal-700">
         🇩🇪 Deutschlands moderner Mietbewerbungsservice
       </div>
 
-      
-        Wohnung finden.<h1 className="mt-8 text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
+
+      {/* Headline */}
+      <h1 className="mt-8 text-[64px] font-black leading-[1.05] tracking-tight text-slate-900">
+        Wohnung finden.
         <br />
         <span className="text-teal-600">
           Ohne Bewerbungsstress.
         </span>
       </h1>
 
-<p className="mt-6 text-lg leading-7 text-slate-600 sm:text-xl sm:leading-8">        MietGate übernimmt deine Mietbewerbungen, verwaltet deine Unterlagen
+
+      {/* Beschreibung */}
+      <p className="mt-6 text-lg leading-7 text-slate-600 sm:text-xl sm:leading-8">
+        MietGate übernimmt deine Mietbewerbungen, verwaltet deine Unterlagen
         und erhöht deine Chancen auf Besichtigungstermine.
       </p>
 
+
+      {/* Buttons */}
       <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+
         <button className="flex items-center justify-center gap-2 rounded-2xl bg-teal-600 px-7 py-4 font-semibold text-white transition hover:bg-teal-700">
           Kostenlos starten
           <ArrowRight size={18} />
@@ -36,15 +46,20 @@ export default function HeroContent() {
         <button className="rounded-2xl border border-slate-300 bg-white px-7 py-4 font-semibold text-slate-700 transition hover:bg-slate-50">
           So funktioniert's
         </button>
+
       </div>
 
+
+      {/* Trust Elemente */}
       <div className="mt-10 grid gap-4 sm:grid-cols-3">
+
         <div className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
           <ShieldCheck className="text-teal-600" size={22} />
           <span className="text-sm font-medium">
             DSGVO-konform
           </span>
         </div>
+
 
         <div className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
           <Clock3 className="text-teal-600" size={22} />
@@ -53,13 +68,16 @@ export default function HeroContent() {
           </span>
         </div>
 
+
         <div className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
           <BadgeCheck className="text-teal-600" size={22} />
           <span className="text-sm font-medium">
             Professionell
           </span>
         </div>
+
       </div>
+
     </motion.div>
   );
 }
