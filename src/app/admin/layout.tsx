@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mietgate.de"),
+ metadataBase: new URL("https://service.mietgate.de"),
 
   title: "MietGate – Der neue Standard für Mietbewerbungen",
 
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     title: "MietGate – Der neue Standard für Mietbewerbungen",
     description:
       "Wohnung finden. Ohne Bewerbungsstress. MietGate übernimmt deine Mietbewerbungen.",
-    url: "https://mietgate.de",
+    url: "https://service.mietgate.de",
     siteName: "MietGate",
     locale: "de_DE",
     type: "website",
