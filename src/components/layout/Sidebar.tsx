@@ -1,6 +1,8 @@
 import Link from "next/link";
+import LogoutButton from "@/components/auth/LogoutButton";
 import Logo from "@/components/brand/Logo";
 import {
+  
   LayoutDashboard,
   User,
   FileText,
@@ -86,17 +88,25 @@ export default function Sidebar() {
       </nav>
 
 
-      <div className="mt-auto rounded-2xl bg-teal-50 p-4">
+      <div className="mt-auto space-y-4">
 
-        <p className="text-sm font-semibold text-teal-800">
-          MietGate Premium
-        </p>
+  <div className="rounded-2xl bg-teal-50 p-4">
 
-        <p className="mt-1 text-xs text-teal-700">
-          Deine Mietbewerbungen professionell verwalten.
-        </p>
+    <p className="text-sm font-semibold text-teal-800">
+      MietGate Premium
+    </p>
 
-      </div>
+    <p className="mt-1 text-xs text-teal-700">
+      Deine Mietbewerbungen professionell verwalten.
+    </p>
+
+  </div>
+
+
+  <LogoutButton />
+
+
+</div>
 
 
     </aside>

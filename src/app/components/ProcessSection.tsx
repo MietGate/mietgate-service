@@ -5,7 +5,10 @@ import Image from "next/image";
 
 export default function ProcessSection() {
   return (
-    <section className="bg-white px-6 py-24">
+    <section
+  id="prozess"
+  className="bg-white px-6 py-24"
+>
 
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-center">
 

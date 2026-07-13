@@ -2,37 +2,35 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { motion } from "framer-motion";
 
-import DashboardShell from "@/components/layout/DashboardShell";
 import Card from "@/components/ui/Card";
-import Progress from "@/components/ui/Progress";
 import Badge from "@/components/ui/Badge";
+import Progress from "@/components/ui/Progress";
 
 import {
   FileText,
   Home,
   ClipboardCheck,
-  ExternalLink,
 } from "lucide-react";
 
 
-export default function DashboardPage() {
-
-  const [name, setName] = useState("");
-  const [progress, setProgress] = useState(0);
-  const [completed, setCompleted] = useState(false);
-
-  const [documents, setDocuments] = useState(0);
-  const [applications, setApplications] = useState(0);
-
-  const [viewing, setViewing] = useState<any>(null);
+export default function DashboardPage(){
 
 
+  const [name,setName] = useState("");
+  const [documents,setDocuments] = useState(0);
+  const [applications,setApplications] = useState(0);
+  const [progress,setProgress] = useState(0);
 
-  useEffect(() => {
+  const [viewing,setViewing] = useState<any>(null);
 
-    async function loadUser(){
+
+
+  useEffect(()=>{
+
+
+    async function load(){
+
 
       const supabase = createClient();
 
@@ -49,96 +47,103 @@ export default function DashboardPage() {
 
 
 
-      const { data } = await supabase
+
+      const {data:profile}=await supabase
         .from("profiles")
         .select("*")
-        .eq("id", user.id)
+        .eq("id",user.id)
         .single();
 
 
 
-      if(data){
+      if(profile){
 
-        setName(data.full_name || "");
+        setName(profile.full_name || "");
 
 
-        const fields = [
-          data.city,
-          data.budget,
-          data.rooms,
-          data.move_in_date,
-          data.household,
-          data.income
+        const fields=[
+          profile.city,
+          profile.budget,
+          profile.rooms,
+          profile.move_in_date,
+          profile.household,
+          profile.income
         ];
 
 
-        const filled = fields.filter(Boolean).length;
+        const filled =
+          fields.filter(Boolean).length;
 
 
         setProgress(
-          Math.round((filled / fields.length) * 100)
+          Math.round(
+            (filled / fields.length) * 100
+          )
         );
 
-
-        setCompleted(data.profile_completed);
-
       }
 
 
 
 
 
-      const { data: docs } = await supabase
+      const {data:docs}=await supabase
         .from("documents")
         .select("id")
-        .eq("user_id", user.id);
+        .eq("user_id",user.id);
 
 
-      setDocuments(docs?.length || 0);
+      setDocuments(
+        docs?.length || 0
+      );
 
 
 
 
 
-
-      const { data: apps } = await supabase
+      const {data:apps}=await supabase
         .from("applications")
         .select("id")
-        .eq("user_id", user.id);
+        .eq("user_id",user.id);
 
 
-      setApplications(apps?.length || 0);
+      setApplications(
+        apps?.length || 0
+      );
 
 
 
 
 
-
-
-      const { data: viewingData } = await supabase
+      const {data:viewingData}=await supabase
         .from("viewings")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("viewing_date", {
-          ascending:true
+        .select(`
+          id,
+          title,
+          address,
+          city,
+          listing_url,
+          viewing_date,
+          viewing_time,
+          status
+        `)
+        .eq("user_id",user.id)
+        .order("created_at",{
+          ascending:false
         })
         .limit(1)
-        .single();
+        .maybeSingle();
 
 
 
-      if(viewingData){
+      setViewing(viewingData);
 
-        setViewing(viewingData);
-
-      }
 
 
     }
 
 
-
-    loadUser();
+    load();
 
 
   },[]);
@@ -146,31 +151,33 @@ export default function DashboardPage() {
 
 
 
-
-
-
   async function updateViewingStatus(status:string){
-
-    const supabase = createClient();
 
 
     if(!viewing) return;
 
 
 
-    await supabase
-      .from("viewings")
-      .update({
+    await fetch("/api/viewings",{
+
+      method:"PATCH",
+
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+      body:JSON.stringify({
+
+        viewingId:viewing.id,
         status
+
       })
-      .eq("id", viewing.id);
 
-
-
-    setViewing({
-      ...viewing,
-      status
     });
+
+
+
+    window.location.reload();
 
 
   }
@@ -179,138 +186,70 @@ export default function DashboardPage() {
 
 
 
-
-
   return (
 
-    <DashboardShell>
+    <main className="min-h-screen bg-slate-50 p-8">
 
 
-      <motion.div
-
-        initial={{
-          opacity:0,
-          y:20
-        }}
-
-        animate={{
-          opacity:1,
-          y:0
-        }}
-
-      >
-
-        <h1 className="text-3xl font-bold text-slate-900">
-          Hallo {name || "MietGate Nutzer"}
-        </h1>
+      <h1 className="text-3xl font-bold">
+        Hallo {name || "MietGate Nutzer"}
+      </h1>
 
 
-        <p className="mt-2 text-slate-600">
-          Wir kümmern uns um deine Mietbewerbungen.
-        </p>
-
-
-      </motion.div>
-
-
-
-
+      <p className="mt-2 text-slate-600">
+        Wir kümmern uns um deine Mietbewerbungen.
+      </p>
 
 
 
       <div className="mt-8 grid gap-6 md:grid-cols-3">
 
 
-
         <Card className="p-6">
 
+          <Home className="text-teal-600"/>
 
-          <div className="flex items-center justify-between">
-
-
-            <Home className="text-teal-600"/>
-
-
-            <Badge variant={completed ? "success" : "warning"}>
-              {completed ? "Fertig" : "Offen"}
-            </Badge>
-
-
-          </div>
-
-
-
-          <h3 className="mt-5 font-semibold text-slate-700">
+          <h3 className="mt-4 font-semibold">
             Suchprofil
           </h3>
 
-
-
-          <div className="mt-4">
-            <Progress value={progress}/>
-          </div>
-
+          <Progress value={progress}/>
 
         </Card>
 
 
 
 
-
-
         <Card className="p-6">
-
 
           <FileText className="text-teal-600"/>
 
-
-          <h3 className="mt-5 font-semibold text-slate-700">
+          <h3 className="mt-4 font-semibold">
             Dokumente
           </h3>
 
-
-
-          <p className="mt-3 text-3xl font-bold text-slate-900">
+          <p className="text-3xl font-bold">
             {documents}
           </p>
 
-
-          <p className="text-sm text-slate-500">
-            Unterlagen vorhanden
-          </p>
-
-
         </Card>
-
-
-
 
 
 
 
         <Card className="p-6">
 
-
           <ClipboardCheck className="text-teal-600"/>
 
-
-          <h3 className="mt-5 font-semibold text-slate-700">
+          <h3 className="mt-4 font-semibold">
             Bewerbungen
           </h3>
 
-
-          <p className="mt-3 text-3xl font-bold text-slate-900">
+          <p className="text-3xl font-bold">
             {applications}
           </p>
 
-
-          <p className="text-sm text-slate-500">
-            laufende Bewerbungen
-          </p>
-
-
         </Card>
-
 
 
       </div>
@@ -318,243 +257,91 @@ export default function DashboardPage() {
 
 
 
-
-
-
-
-
-      <Card className="mt-8 p-8">
-
-
-        <h2 className="text-xl font-bold text-slate-900">
-          Deine nächsten Schritte
-        </h2>
-
-
-
-        <div className="mt-5 space-y-3 text-slate-600">
-
-
-          <p>
-            {progress === 100
-              ? "✓ Suchprofil abgeschlossen"
-              : "→ Suchprofil vervollständigen"}
-          </p>
-
-
-
-          <p>
-            {documents > 0
-              ? "✓ Dokumente vorhanden"
-              : "→ Dokumente hochladen"}
-          </p>
-
-
-
-
-          <p>
-            {applications > 0
-              ? "✓ Bewerbungen laufen"
-              : "→ MietGate startet Bewerbungen"}
-          </p>
-
-
-
-        </div>
-
-
-      </Card>
-
-
-
-
-
-
-
-
-
       {viewing && (
 
-
       <Card className="mt-8 p-8">
 
 
-        <h2 className="text-xl font-bold text-slate-900">
+        <h2 className="text-xl font-bold">
           🏠 Nächste Besichtigung
         </h2>
 
 
 
-
-        <p className="mt-5 text-lg font-semibold">
+        <p className="mt-4 font-semibold">
           {viewing.title}
         </p>
 
 
-
         <p className="text-slate-500">
-          {viewing.address}
+          {viewing.address}, {viewing.city}
         </p>
 
 
-        <p className="text-slate-500">
-          {viewing.city}
+        <p className="mt-4">
+          📅 {viewing.viewing_date}
+        </p>
+
+
+        <p>
+          🕒 {viewing.viewing_time}
         </p>
 
 
 
-
-
-        <div className="mt-5">
-
-
-          <p>
-            📅 {new Date(viewing.viewing_date).toLocaleDateString("de-DE")}
-          </p>
-
-
-          <p>
-            🕒 {viewing.viewing_time.slice(0,5)} Uhr
-          </p>
-
-
-        </div>
-
-
-
-
-
-
-
-        <div className="mt-5">
-
-
-          <Badge
-
-            variant={
-              viewing.status === "accepted"
-
-              ? "success"
-
-              :
-
-              viewing.status === "declined"
-
-              ? "danger"
-
-              :
-
-              "warning"
-            }
-
-          >
-
-            {
-              viewing.status === "accepted"
-
-              ?
-
-              "Zugesagt"
-
-              :
-
-              viewing.status === "declined"
-
-              ?
-
-              "Abgesagt"
-
-              :
-
-              "Rückmeldung ausstehend"
-            }
-
-
-          </Badge>
-
-
-        </div>
-
-
-
-
-
-
-
-
-        <div className="mt-8 flex flex-wrap gap-4">
-
-
+        {viewing.listing_url && (
 
           <a
-
             href={viewing.listing_url}
-
             target="_blank"
-
-            className="rounded-xl border px-5 py-3 font-medium hover:bg-slate-50 flex items-center gap-2"
-
+            className="mt-5 inline-block rounded-xl border px-5 py-3"
           >
-
             Wohnung ansehen
-
-            <ExternalLink size={18}/>
-
           </a>
 
+        )}
 
 
 
-
+        <div className="mt-6 flex gap-4">
 
 
           <button
-
-            onClick={() => updateViewingStatus("accepted")}
-
-            className="rounded-xl bg-teal-600 px-5 py-3 font-medium text-white hover:bg-teal-700"
-
+            onClick={()=>updateViewingStatus("accepted")}
+            className="rounded-xl bg-teal-600 px-5 py-3 text-white"
           >
-
             Termin zusagen
-
           </button>
-
-
-
-
 
 
 
           <button
-
-            onClick={() => updateViewingStatus("declined")}
-
-            className="rounded-xl bg-red-600 px-5 py-3 font-medium text-white hover:bg-red-700"
-
+            onClick={()=>updateViewingStatus("declined")}
+            className="rounded-xl bg-red-600 px-5 py-3 text-white"
           >
-
             Termin absagen
-
           </button>
-
-
 
 
         </div>
+
+
+
+        <div className="mt-5">
+  <Badge>
+    {viewing.status}
+  </Badge>
+</div>
 
 
       </Card>
 
-
       )}
 
 
-
-
-
-    </DashboardShell>
+    </main>
 
   );
+
 
 }

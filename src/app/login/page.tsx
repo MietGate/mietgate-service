@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
 
-export default function LoginPage() {
+export default function LoginPage(){
 
   const router = useRouter();
 
@@ -25,33 +25,62 @@ export default function LoginPage() {
     const supabase = createClient();
 
 
- const { data, error } = await supabase.auth.signInWithPassword({
-  email,
-  password,
-});
 
-console.log("LOGIN:", data);
-console.log("ERROR:", error);
+    const {
+      data,
+      error
+    } = await supabase.auth.signInWithPassword({
 
-const session = await supabase.auth.getSession();
-console.log("SESSION:", session);
+      email,
+      password
 
-console.log("LOGIN DATA:", data);
-console.log("LOGIN ERROR:", error);
-
-if (error) {
-  setError(error.message);
-  setLoading(false);
-  return;
-}
-
-const sessionResult = await supabase.auth.getSession();
-console.log("SESSION AFTER LOGIN:", sessionResult);
-
-router.push("/dashboard");
+    });
 
 
-    router.push("/dashboard");
+
+    if(error){
+
+      setError(error.message);
+      setLoading(false);
+      return;
+
+    }
+
+
+
+    const user = data.user;
+
+
+    if(!user){
+
+      setError("Login fehlgeschlagen");
+      setLoading(false);
+      return;
+
+    }
+
+
+
+    const {
+      data:profile
+    } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id",user.id)
+      .single();
+
+
+
+    if(profile?.role === "admin"){
+
+      router.push("/admin/dashboard");
+
+    }else{
+
+      router.push("/dashboard");
+
+    }
+
 
 
   }
@@ -63,13 +92,13 @@ router.push("/dashboard");
     <main className="mx-auto max-w-md px-6 py-20">
 
 
-      <h1 className="text-4xl font-bold text-slate-900">
+      <h1 className="text-4xl font-bold">
         MietGate Login
       </h1>
 
 
       <p className="mt-4 text-slate-600">
-        Melde dich an und verwalte deine Wohnungssuche.
+        Verwalte deine Mietbewerbungen.
       </p>
 
 
@@ -85,6 +114,7 @@ router.push("/dashboard");
         />
 
 
+
         <input
           className="w-full rounded-xl border p-4"
           placeholder="Passwort"
@@ -98,10 +128,13 @@ router.push("/dashboard");
         <button
           onClick={login}
           disabled={loading}
-          className="w-full rounded-xl bg-teal-500 py-3 font-semibold text-white"
+          className="w-full rounded-xl bg-teal-600 py-3 text-white font-semibold"
         >
 
-          {loading ? "Anmeldung..." : "Einloggen"}
+          {loading
+            ? "Anmeldung..."
+            : "Einloggen"
+          }
 
         </button>
 
@@ -116,6 +149,7 @@ router.push("/dashboard");
         )}
 
 
+
       </div>
 
 
@@ -124,4 +158,3 @@ router.push("/dashboard");
   );
 
 }
-
