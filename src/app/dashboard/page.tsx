@@ -12,6 +12,8 @@ import {
   FileText,
   Home,
   ClipboardCheck,
+  CalendarDays,
+  MapPin,
 } from "lucide-react";
 
 
@@ -34,6 +36,7 @@ export default function DashboardPage(){
 
 
       const supabase = createClient();
+
 
 
       const {
@@ -62,6 +65,7 @@ export default function DashboardPage(){
         setName(profile.full_name || "");
 
 
+
         const fields=[
           profile.city,
           profile.budget,
@@ -72,8 +76,10 @@ export default function DashboardPage(){
         ];
 
 
+
         const filled =
           fields.filter(Boolean).length;
+
 
 
         setProgress(
@@ -87,15 +93,19 @@ export default function DashboardPage(){
 
 
 
+
       const {data:docs}=await supabase
         .from("documents")
         .select("id")
         .eq("user_id",user.id);
 
 
+
       setDocuments(
         docs?.length || 0
       );
+
+
 
 
 
@@ -106,9 +116,12 @@ export default function DashboardPage(){
         .eq("user_id",user.id);
 
 
+
       setApplications(
         apps?.length || 0
       );
+
+
 
 
 
@@ -190,70 +203,30 @@ export default function DashboardPage(){
 
     <DashboardShell>
 
-      <main className="min-h-screen bg-slate-50 p-8">
 
-
-        <h1 className="text-3xl font-bold">
-          Hallo {name || "MietGate Nutzer"}
-        </h1>
-
-
-        <p className="mt-2 text-slate-600">
-          Wir kümmern uns um deine Mietbewerbungen.
-        </p>
+      <div className="space-y-8">
 
 
 
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
+        <div>
 
 
-          <Card className="p-6">
-
-            <Home className="text-teal-600"/>
-
-            <h3 className="mt-4 font-semibold">
-              Suchprofil
-            </h3>
-
-            <Progress value={progress}/>
-
-          </Card>
-
-
+          <h1
+            className="
+            text-3xl
+            font-bold
+            text-slate-900
+            sm:text-4xl
+            "
+          >
+            Hallo {name || "MietGate Nutzer"} 👋
+          </h1>
 
 
 
-          <Card className="p-6">
-
-            <FileText className="text-teal-600"/>
-
-            <h3 className="mt-4 font-semibold">
-              Dokumente
-            </h3>
-
-            <p className="text-3xl font-bold">
-              {documents}
-            </p>
-
-          </Card>
-
-
-
-
-
-          <Card className="p-6">
-
-            <ClipboardCheck className="text-teal-600"/>
-
-            <h3 className="mt-4 font-semibold">
-              Bewerbungen
-            </h3>
-
-            <p className="text-3xl font-bold">
-              {applications}
-            </p>
-
-          </Card>
+          <p className="mt-2 text-slate-600">
+            Wir kümmern uns um deine Mietbewerbungen.
+          </p>
 
 
         </div>
@@ -262,70 +235,186 @@ export default function DashboardPage(){
 
 
 
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
+
+
+          <Card className="p-6">
+
+            <Home className="text-teal-600"/>
+
+
+            <h3 className="mt-4 font-semibold">
+              Suchprofil
+            </h3>
+
+
+            <p className="mt-2 text-3xl font-bold">
+              {progress}%
+            </p>
+
+
+            <div className="mt-3">
+              <Progress value={progress}/>
+            </div>
+
+
+          </Card>
+
+
+
+
+
+
+
+          <Card className="p-6">
+
+
+            <FileText className="text-teal-600"/>
+
+
+            <h3 className="mt-4 font-semibold">
+              Dokumente
+            </h3>
+
+
+            <p className="mt-2 text-3xl font-bold">
+              {documents}
+            </p>
+
+
+          </Card>
+
+
+
+
+
+
+
+          <Card className="p-6">
+
+
+            <ClipboardCheck className="text-teal-600"/>
+
+
+            <h3 className="mt-4 font-semibold">
+              Bewerbungen
+            </h3>
+
+
+            <p className="mt-2 text-3xl font-bold">
+              {applications}
+            </p>
+
+
+          </Card>
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
         {viewing && (
 
-          <Card className="mt-8 p-8">
+
+          <Card className="p-6 sm:p-8">
 
 
-            <h2 className="text-xl font-bold">
-              🏠 Nächste Besichtigung
-            </h2>
+            <div className="flex items-center gap-3">
+
+              <CalendarDays className="text-teal-600"/>
 
 
-
-            <p className="mt-4 font-semibold">
-              {viewing.title}
-            </p>
-
-
-            <p className="text-slate-500">
-              {viewing.address}, {viewing.city}
-            </p>
+              <h2 className="text-xl font-bold">
+                Nächste Besichtigung
+              </h2>
 
 
-            <p className="mt-4">
-              📅 {viewing.viewing_date}
-            </p>
-
-
-            <p>
-              🕒 {viewing.viewing_time}
-            </p>
-
-
-
-
-            {viewing.listing_url && (
-
-              <a
-                href={viewing.listing_url}
-                target="_blank"
-                className="mt-5 inline-block rounded-xl border px-5 py-3"
-              >
-                Wohnung ansehen
-              </a>
-
-            )}
+            </div>
 
 
 
 
 
-            <div className="mt-6 flex gap-4">
+            <div className="mt-6">
+
+
+              <h3 className="text-xl font-bold">
+                {viewing.title}
+              </h3>
+
+
+
+              <p className="mt-2 flex items-center gap-2 text-slate-500">
+
+                <MapPin size={18}/>
+
+                {viewing.address}, {viewing.city}
+
+              </p>
+
+
+
+
+              <p className="mt-4">
+                📅 {viewing.viewing_date}
+              </p>
+
+
+
+              <p>
+                🕒 {viewing.viewing_time}
+              </p>
+
+
+
+
+            </div>
+
+
+
+
+
+
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
 
 
               <button
                 onClick={()=>updateViewingStatus("accepted")}
-                className="rounded-xl bg-teal-600 px-5 py-3 text-white"
+                className="
+                rounded-xl
+                bg-teal-600
+                px-5
+                py-3
+                text-white
+                hover:bg-teal-700
+                "
               >
                 Termin zusagen
               </button>
 
 
 
+
+
               <button
                 onClick={()=>updateViewingStatus("declined")}
-                className="rounded-xl bg-red-600 px-5 py-3 text-white"
+                className="
+                rounded-xl
+                bg-red-600
+                px-5
+                py-3
+                text-white
+                hover:bg-red-700
+                "
               >
                 Termin absagen
               </button>
@@ -336,21 +425,26 @@ export default function DashboardPage(){
 
 
 
+
             <div className="mt-5">
 
               <Badge>
                 {viewing.status}
               </Badge>
 
+
             </div>
+
 
 
           </Card>
 
+
         )}
 
 
-      </main>
+
+      </div>
 
 
     </DashboardShell>
