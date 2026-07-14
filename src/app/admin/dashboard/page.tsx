@@ -140,46 +140,61 @@ export default async function AdminDashboardPage() {
       <Card className="mt-8 p-8">
 
 
-        <h2 className="text-xl font-bold text-red-600">
-          ⚠️ Abgesagte Besichtigungen
-        </h2>
+  <h2 className="text-xl font-bold text-red-600">
+    ⚠️ Aktionen erforderlich
+  </h2>
 
 
-        <div className="mt-5 space-y-4">
+  <p className="mt-2 text-slate-500">
+    Kunden mit abgesagten Besichtigungen benötigen eine Rückmeldung.
+  </p>
 
 
-          {dashboard.declinedViewings.length === 0 && (
 
-            <p className="text-slate-500">
-              Keine Absagen vorhanden.
+  <div className="mt-6 space-y-4">
+
+
+    {dashboard.declinedViewings.length === 0 && (
+
+      <p className="text-slate-500">
+        Keine offenen Aktionen vorhanden.
+      </p>
+
+    )}
+
+
+
+
+    {dashboard.declinedViewings.map((viewing:any)=>(
+
+
+      <div
+        key={viewing.id}
+        className="rounded-xl border border-red-200 bg-red-50 p-5"
+      >
+
+
+        <div className="flex flex-col gap-4 md:flex-row md:justify-between">
+
+
+          <div>
+
+
+            <h3 className="font-bold text-slate-900">
+              {viewing.title}
+            </h3>
+
+
+            <p className="text-slate-600">
+              {viewing.address}, {viewing.city}
             </p>
 
-          )}
 
 
+            <div className="mt-3">
 
 
-          {dashboard.declinedViewings.map((viewing:any)=>(
-
-
-            <div
-              key={viewing.id}
-              className="rounded-xl border p-5"
-            >
-
-
-              <h3 className="font-bold">
-                {viewing.title}
-              </h3>
-
-
-              <p className="text-slate-500">
-                {viewing.address}, {viewing.city}
-              </p>
-
-
-
-              <p className="mt-3">
+              <p>
                 Kunde:
                 <span className="ml-2 font-semibold">
                   {viewing.customer?.full_name || "-"}
@@ -192,30 +207,66 @@ export default async function AdminDashboardPage() {
               </p>
 
 
+              {viewing.customer?.phone && (
 
-              <Badge variant="danger">
-                Abgesagt
-              </Badge>
+                <p className="text-sm text-slate-500">
+                  {viewing.customer.phone}
+                </p>
+
+              )}
 
 
             </div>
 
 
-          ))}
+          </div>
+
+
+
+
+
+          <div className="flex flex-col gap-2">
+
+
+            {viewing.customer?.email && (
+
+              <a
+                href={`mailto:${viewing.customer.email}`}
+                className="rounded-xl bg-teal-600 px-4 py-2 text-center text-white hover:bg-teal-700"
+              >
+                Kunde kontaktieren
+              </a>
+
+            )}
+
+
+
+
+            <a
+              href={`/admin/kunden/${viewing.user_id}`}
+              className="rounded-xl border px-4 py-2 text-center hover:bg-white"
+            >
+              Kundenprofil öffnen
+            </a>
+
+
+          </div>
 
 
 
         </div>
 
 
-      </Card>
+      </div>
 
 
+    ))}
 
 
+  </div>
 
 
-
+</Card>
 
       {/* LETZTE AKTIVITÄTEN */}
 

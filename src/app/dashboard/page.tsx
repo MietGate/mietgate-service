@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import DashboardShell from "@/components/layout/DashboardShell";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -86,7 +87,6 @@ export default function DashboardPage(){
 
 
 
-
       const {data:docs}=await supabase
         .from("documents")
         .select("id")
@@ -96,7 +96,6 @@ export default function DashboardPage(){
       setDocuments(
         docs?.length || 0
       );
-
 
 
 
@@ -151,6 +150,7 @@ export default function DashboardPage(){
 
 
 
+
   async function updateViewingStatus(status:string){
 
 
@@ -188,158 +188,172 @@ export default function DashboardPage(){
 
   return (
 
-    <main className="min-h-screen bg-slate-50 p-8">
+    <DashboardShell>
+
+      <main className="min-h-screen bg-slate-50 p-8">
 
 
-      <h1 className="text-3xl font-bold">
-        Hallo {name || "MietGate Nutzer"}
-      </h1>
+        <h1 className="text-3xl font-bold">
+          Hallo {name || "MietGate Nutzer"}
+        </h1>
 
 
-      <p className="mt-2 text-slate-600">
-        Wir kümmern uns um deine Mietbewerbungen.
-      </p>
-
-
-
-      <div className="mt-8 grid gap-6 md:grid-cols-3">
-
-
-        <Card className="p-6">
-
-          <Home className="text-teal-600"/>
-
-          <h3 className="mt-4 font-semibold">
-            Suchprofil
-          </h3>
-
-          <Progress value={progress}/>
-
-        </Card>
-
-
-
-
-        <Card className="p-6">
-
-          <FileText className="text-teal-600"/>
-
-          <h3 className="mt-4 font-semibold">
-            Dokumente
-          </h3>
-
-          <p className="text-3xl font-bold">
-            {documents}
-          </p>
-
-        </Card>
-
-
-
-
-        <Card className="p-6">
-
-          <ClipboardCheck className="text-teal-600"/>
-
-          <h3 className="mt-4 font-semibold">
-            Bewerbungen
-          </h3>
-
-          <p className="text-3xl font-bold">
-            {applications}
-          </p>
-
-        </Card>
-
-
-      </div>
-
-
-
-
-      {viewing && (
-
-      <Card className="mt-8 p-8">
-
-
-        <h2 className="text-xl font-bold">
-          🏠 Nächste Besichtigung
-        </h2>
-
-
-
-        <p className="mt-4 font-semibold">
-          {viewing.title}
-        </p>
-
-
-        <p className="text-slate-500">
-          {viewing.address}, {viewing.city}
-        </p>
-
-
-        <p className="mt-4">
-          📅 {viewing.viewing_date}
-        </p>
-
-
-        <p>
-          🕒 {viewing.viewing_time}
+        <p className="mt-2 text-slate-600">
+          Wir kümmern uns um deine Mietbewerbungen.
         </p>
 
 
 
-        {viewing.listing_url && (
-
-          <a
-            href={viewing.listing_url}
-            target="_blank"
-            className="mt-5 inline-block rounded-xl border px-5 py-3"
-          >
-            Wohnung ansehen
-          </a>
-
-        )}
+        <div className="mt-8 grid gap-6 md:grid-cols-3">
 
 
+          <Card className="p-6">
 
-        <div className="mt-6 flex gap-4">
+            <Home className="text-teal-600"/>
 
+            <h3 className="mt-4 font-semibold">
+              Suchprofil
+            </h3>
 
-          <button
-            onClick={()=>updateViewingStatus("accepted")}
-            className="rounded-xl bg-teal-600 px-5 py-3 text-white"
-          >
-            Termin zusagen
-          </button>
+            <Progress value={progress}/>
+
+          </Card>
 
 
 
-          <button
-            onClick={()=>updateViewingStatus("declined")}
-            className="rounded-xl bg-red-600 px-5 py-3 text-white"
-          >
-            Termin absagen
-          </button>
+
+
+          <Card className="p-6">
+
+            <FileText className="text-teal-600"/>
+
+            <h3 className="mt-4 font-semibold">
+              Dokumente
+            </h3>
+
+            <p className="text-3xl font-bold">
+              {documents}
+            </p>
+
+          </Card>
+
+
+
+
+
+          <Card className="p-6">
+
+            <ClipboardCheck className="text-teal-600"/>
+
+            <h3 className="mt-4 font-semibold">
+              Bewerbungen
+            </h3>
+
+            <p className="text-3xl font-bold">
+              {applications}
+            </p>
+
+          </Card>
 
 
         </div>
 
 
 
-        <div className="mt-5">
-  <Badge>
-    {viewing.status}
-  </Badge>
-</div>
 
 
-      </Card>
+        {viewing && (
 
-      )}
+          <Card className="mt-8 p-8">
 
 
-    </main>
+            <h2 className="text-xl font-bold">
+              🏠 Nächste Besichtigung
+            </h2>
+
+
+
+            <p className="mt-4 font-semibold">
+              {viewing.title}
+            </p>
+
+
+            <p className="text-slate-500">
+              {viewing.address}, {viewing.city}
+            </p>
+
+
+            <p className="mt-4">
+              📅 {viewing.viewing_date}
+            </p>
+
+
+            <p>
+              🕒 {viewing.viewing_time}
+            </p>
+
+
+
+
+            {viewing.listing_url && (
+
+              <a
+                href={viewing.listing_url}
+                target="_blank"
+                className="mt-5 inline-block rounded-xl border px-5 py-3"
+              >
+                Wohnung ansehen
+              </a>
+
+            )}
+
+
+
+
+
+            <div className="mt-6 flex gap-4">
+
+
+              <button
+                onClick={()=>updateViewingStatus("accepted")}
+                className="rounded-xl bg-teal-600 px-5 py-3 text-white"
+              >
+                Termin zusagen
+              </button>
+
+
+
+              <button
+                onClick={()=>updateViewingStatus("declined")}
+                className="rounded-xl bg-red-600 px-5 py-3 text-white"
+              >
+                Termin absagen
+              </button>
+
+
+            </div>
+
+
+
+
+            <div className="mt-5">
+
+              <Badge>
+                {viewing.status}
+              </Badge>
+
+            </div>
+
+
+          </Card>
+
+        )}
+
+
+      </main>
+
+
+    </DashboardShell>
 
   );
 

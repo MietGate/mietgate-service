@@ -1,8 +1,39 @@
-import { Bell, UserCircle } from "lucide-react";
+"use client";
+
+import { Bell, UserCircle, LogOut } from "lucide-react";
 import MobileMenu from "./MobileMenu";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+
 
 export default function Topbar() {
+
+
+  const router = useRouter();
+
+
+  async function logout(){
+
+
+    const supabase = createClient();
+
+
+    await supabase.auth.signOut();
+
+
+    router.push("/login");
+
+
+    router.refresh();
+
+  }
+
+
+
+
+
   return (
+
     <header
       className="
         flex
@@ -17,11 +48,14 @@ export default function Topbar() {
       "
     >
 
+
       <div className="flex items-center gap-4">
+
 
         <div className="md:hidden">
           <MobileMenu />
         </div>
+
 
 
         <div>
@@ -37,11 +71,15 @@ export default function Topbar() {
 
         </div>
 
+
       </div>
 
 
 
+
+
       <div className="flex items-center gap-3">
+
 
 
         <button
@@ -60,6 +98,8 @@ export default function Topbar() {
 
 
 
+
+
         <div
           className="
             flex
@@ -72,13 +112,16 @@ export default function Topbar() {
           "
         >
 
+
           <UserCircle
             size={26}
             className="text-teal-600"
           />
 
 
+
           <div className="hidden sm:block">
+
 
             <p className="text-sm font-medium text-slate-900">
               Kunde
@@ -89,15 +132,51 @@ export default function Topbar() {
               MietGate Nutzer
             </p>
 
+
           </div>
 
 
         </div>
 
 
+
+
+
+
+        <button
+
+          onClick={logout}
+
+          className="
+            flex
+            items-center
+            gap-2
+            rounded-xl
+            bg-red-50
+            px-4
+            py-2
+            text-sm
+            font-medium
+            text-red-600
+            hover:bg-red-100
+          "
+
+        >
+
+          <LogOut size={18}/>
+
+          Logout
+
+        </button>
+
+
+
       </div>
 
 
+
     </header>
+
   );
+
 }

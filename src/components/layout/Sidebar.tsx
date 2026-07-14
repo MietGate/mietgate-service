@@ -1,8 +1,8 @@
 import Link from "next/link";
 import LogoutButton from "@/components/auth/LogoutButton";
 import Logo from "@/components/brand/Logo";
+
 import {
-  
   LayoutDashboard,
   User,
   FileText,
@@ -10,105 +10,141 @@ import {
   Settings,
 } from "lucide-react";
 
+
 const navigation = [
   {
-    name: "Dashboard",
-    href: "/dashboard",
-    icon: LayoutDashboard,
+    name:"Dashboard",
+    href:"/dashboard",
+    icon:LayoutDashboard,
   },
   {
-    name: "Profil",
-    href: "/profil",
-    icon: User,
+    name:"Profil",
+    href:"/profil",
+    icon:User,
   },
   {
-    name: "Dokumente",
-    href: "/dokumente",
-    icon: FileText,
+    name:"Dokumente",
+    href:"/dokumente",
+    icon:FileText,
   },
   {
-    name: "Bewerbungen",
-    href: "/bewerbungen",
-    icon: ClipboardList,
+    name:"Bewerbungen",
+    href:"/bewerbungen",
+    icon:ClipboardList,
   },
   {
-    name: "Einstellungen",
-    href: "/einstellungen",
-    icon: Settings,
+    name:"Einstellungen",
+    href:"/einstellungen",
+    icon:Settings,
   },
 ];
 
-export default function Sidebar() {
+
+export default function Sidebar(){
+
   return (
-    <aside className="flex h-full min-h-screen w-72 flex-col border-r border-slate-200 bg-white px-6 py-8">
+
+    <aside
+      className="
+      flex
+      min-h-screen
+      w-72
+      shrink-0
+      flex-col
+      border-r
+      border-slate-200
+      bg-white
+      px-6
+      py-8
+      "
+    >
+
 
       <div>
 
-<Logo width={150} />
-  <p className="mt-2 text-sm text-slate-500">
-    Bewerberservice
-  </p>
+        <Logo width={150}/>
 
-</div>
+
+        <p className="mt-2 text-sm text-slate-500">
+          Bewerberservice
+        </p>
+
+
+      </div>
+
+
 
       <nav className="mt-10 flex flex-col gap-2">
 
-        {navigation.map((item) => {
 
-          const Icon = item.icon;
+        {navigation.map((item)=>{
+
+
+          const Icon=item.icon;
+
 
           return (
+
             <Link
               key={item.name}
               href={item.href}
               className="
-                flex
-                items-center
-                gap-3
-                rounded-xl
-                px-4
-                py-3
-                text-slate-600
-                transition
-                hover:bg-slate-100
-                hover:text-slate-900
+              flex
+              items-center
+              gap-3
+              rounded-xl
+              px-4
+              py-3
+              text-slate-600
+              hover:bg-slate-100
               "
             >
-              <Icon size={20} />
+
+              <Icon size={20}/>
+
 
               <span className="font-medium">
                 {item.name}
               </span>
 
+
             </Link>
+
           );
 
+
         })}
+
 
       </nav>
 
 
+
+
       <div className="mt-auto space-y-4">
 
-  <div className="rounded-2xl bg-teal-50 p-4">
 
-    <p className="text-sm font-semibold text-teal-800">
-      MietGate Premium
-    </p>
+        <div className="rounded-2xl bg-teal-50 p-4">
 
-    <p className="mt-1 text-xs text-teal-700">
-      Deine Mietbewerbungen professionell verwalten.
-    </p>
+          <p className="text-sm font-semibold text-teal-800">
+            MietGate Premium
+          </p>
 
-  </div>
+          <p className="mt-1 text-xs text-teal-700">
+            Deine Mietbewerbungen professionell verwalten.
+          </p>
 
-
-  <LogoutButton />
+        </div>
 
 
-</div>
+        <LogoutButton/>
+
+
+      </div>
 
 
     </aside>
+
   );
+
 }

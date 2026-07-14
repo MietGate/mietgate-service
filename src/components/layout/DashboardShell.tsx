@@ -9,21 +9,35 @@ interface DashboardShellProps {
 export default function DashboardShell({
   children,
 }: DashboardShellProps) {
+
   return (
-    <div className="flex min-h-screen bg-slate-50">
 
-      <Sidebar />
+    <div className="flex min-h-screen w-full overflow-x-hidden bg-slate-50">
 
-      <div className="flex flex-1 flex-col">
+
+      <div className="hidden md:block">
+        <Sidebar />
+      </div>
+
+
+
+      <div className="flex min-w-0 flex-1 flex-col">
+
 
         <Topbar />
 
-        <main className="flex-1 p-8">
+
+        <main className="w-full flex-1 overflow-x-hidden p-4 sm:p-6 md:p-8">
+
           {children}
+
         </main>
+
 
       </div>
 
+
     </div>
+
   );
 }

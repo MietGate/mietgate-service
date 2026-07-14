@@ -1,14 +1,17 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
+import ViewingActions from "@/components/admin/ViewingActions";
 
 
 export default async function BesichtigungenPage() {
 
+
   const supabase = createAdminClient();
 
 
-  const { data: viewings } = await supabase
+
+  const { data:viewings } = await supabase
     .from("viewings")
     .select(`
       id,
@@ -19,21 +22,61 @@ export default async function BesichtigungenPage() {
       viewing_date,
       viewing_time,
       status,
-      user_id,
-      profiles:user_id (
-        full_name,
-        email
-      )
+      user_id
     `)
-    .order("viewing_date", {
-      ascending: true
+    .order("viewing_date",{
+      ascending:true
     });
+
+
+
+
+  const userIds =
+    viewings?.map(
+      item => item.user_id
+    ) || [];
+
+
+
+
+  const { data:profiles } = await supabase
+    .from("profiles")
+    .select(`
+      id,
+      full_name,
+      email
+    `)
+    .in(
+      "id",
+      userIds
+    );
+
+
+
+
+
+  const list =
+    viewings?.map(
+      viewing => ({
+
+        ...viewing,
+
+        customer:
+          profiles?.find(
+            profile =>
+              profile.id === viewing.user_id
+          )
+
+      })
+    ) || [];
+
+
 
 
 
   return (
 
-    <div>
+    <main className="min-h-screen bg-slate-50 p-8">
 
 
       <h1 className="text-3xl font-bold text-slate-900">
@@ -42,15 +85,17 @@ export default async function BesichtigungenPage() {
 
 
       <p className="mt-2 text-slate-600">
-        Übersicht aller geplanten Wohnungsbesichtigungen
+        Übersicht aller Wohnungsbesichtigungen
       </p>
+
+
 
 
 
       <div className="mt-8 space-y-6">
 
 
-        {viewings?.map((viewing:any)=>(
+        {list.map((viewing:any)=>(
 
 
           <Card
@@ -59,26 +104,26 @@ export default async function BesichtigungenPage() {
           >
 
 
-            <div className="flex flex-col gap-6 md:flex-row md:justify-between">
 
+            <div className="flex flex-col gap-6 md:flex-row md:justify-between">
 
 
               <div>
 
 
-                <h2 className="text-xl font-bold text-slate-900">
+                <h2 className="text-xl font-bold">
                   {viewing.title}
                 </h2>
 
 
-
-                <p className="mt-2 text-slate-600">
+                <p className="text-slate-600">
                   {viewing.address}, {viewing.city}
                 </p>
 
 
 
-                <div className="mt-5 rounded-xl bg-slate-50 p-4">
+
+                <div className="mt-5 rounded-xl bg-white p-4">
 
 
                   <p className="font-semibold">
@@ -87,12 +132,12 @@ export default async function BesichtigungenPage() {
 
 
                   <p>
-                    {viewing.profiles?.full_name || "-"}
+                    {viewing.customer?.full_name || "-"}
                   </p>
 
 
                   <p className="text-slate-500">
-                    {viewing.profiles?.email || "-"}
+                    {viewing.customer?.email || "-"}
                   </p>
 
 
@@ -101,7 +146,8 @@ export default async function BesichtigungenPage() {
 
 
 
-                <div className="mt-5 space-y-2">
+
+                <div className="mt-5">
 
 
                   <p>
@@ -119,15 +165,16 @@ export default async function BesichtigungenPage() {
 
 
 
+
                 <div className="mt-5">
 
 
                   <Badge
                     variant={
-                      viewing.status === "accepted"
+                      viewing.status==="accepted"
                       ? "success"
                       :
-                      viewing.status === "declined"
+                      viewing.status==="declined"
                       ? "danger"
                       :
                       "warning"
@@ -135,13 +182,13 @@ export default async function BesichtigungenPage() {
                   >
 
                     {
-                      viewing.status === "accepted"
+                      viewing.status==="accepted"
                       ? "Zugesagt"
                       :
-                      viewing.status === "declined"
+                      viewing.status==="declined"
                       ? "Abgesagt"
                       :
-                      "Rückmeldung ausstehend"
+                      "Offen"
                     }
 
                   </Badge>
@@ -150,7 +197,9 @@ export default async function BesichtigungenPage() {
                 </div>
 
 
+
               </div>
+
 
 
 
@@ -164,11 +213,9 @@ export default async function BesichtigungenPage() {
                   <a
                     href={viewing.listing_url}
                     target="_blank"
-                    className="rounded-xl border px-5 py-3 text-center hover:bg-slate-50"
+                    className="rounded-xl border px-5 py-3 text-center"
                   >
-
                     Wohnung ansehen
-
                   </a>
 
                 )}
@@ -176,18 +223,20 @@ export default async function BesichtigungenPage() {
 
 
                 <a
-                  href={`mailto:${viewing.profiles?.email}`}
-                  className="rounded-xl bg-teal-600 px-5 py-3 text-center text-white hover:bg-teal-700"
+                  href={`mailto:${viewing.customer?.email}`}
+                  className="rounded-xl bg-teal-600 px-5 py-3 text-center text-white"
                 >
-
                   Kunde kontaktieren
-
                 </a>
 
 
 
-              </div>
+                <ViewingActions
+                  id={viewing.id}
+                />
 
+
+              </div>
 
 
             </div>
@@ -201,12 +250,10 @@ export default async function BesichtigungenPage() {
 
 
 
-        {!viewings?.length && (
+        {!list.length && (
 
           <Card className="p-8">
-
             Keine Besichtigungen vorhanden.
-
           </Card>
 
         )}
@@ -216,7 +263,7 @@ export default async function BesichtigungenPage() {
       </div>
 
 
-    </div>
+    </main>
 
   );
 
