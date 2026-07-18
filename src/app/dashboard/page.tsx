@@ -110,7 +110,6 @@ export default function DashboardPage(){
 
 
 
-
       const {data:apps}=await supabase
         .from("applications")
         .select("id")
@@ -121,8 +120,6 @@ export default function DashboardPage(){
       setApplications(
         apps?.length || 0
       );
-
-
 
 
 
@@ -160,6 +157,7 @@ export default function DashboardPage(){
 
 
   },[]);
+
 
 
 
@@ -209,6 +207,7 @@ export default function DashboardPage(){
 
 
 
+
   return (
 
 
@@ -216,6 +215,7 @@ export default function DashboardPage(){
 
 
       <div className="space-y-8">
+
 
 
 
@@ -250,8 +250,8 @@ export default function DashboardPage(){
 
 
 
-
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
 
 
           <Card className="p-6">
@@ -328,6 +328,107 @@ export default function DashboardPage(){
 
 
         </div>
+
+
+
+
+
+
+
+        <Card
+          className="p-6 sm:p-8"
+          title="Deine nächsten Schritte"
+          description="Erledige diese Punkte, um deine Wohnungschancen zu erhöhen."
+        >
+
+
+          <div className="space-y-4">
+
+
+
+            <div className="flex items-center justify-between rounded-xl bg-slate-50 p-4">
+
+              <div>
+
+                <p className="font-semibold text-slate-900">
+                  Suchprofil vervollständigen
+                </p>
+
+                <p className="text-sm text-slate-500">
+                  Deine Wünsche helfen uns passende Wohnungen zu finden.
+                </p>
+
+              </div>
+
+
+              <span className="font-semibold text-teal-600">
+                {progress}%
+              </span>
+
+
+            </div>
+
+
+
+
+
+
+            <div className="flex items-center justify-between rounded-xl bg-slate-50 p-4">
+
+              <div>
+
+                <p className="font-semibold text-slate-900">
+                  Dokumente hochladen
+                </p>
+
+                <p className="text-sm text-slate-500">
+                  Schufa, Einkommen und Nachweise vorbereiten.
+                </p>
+
+              </div>
+
+
+              <span className="font-semibold text-teal-600">
+                {documents}
+              </span>
+
+
+            </div>
+
+
+
+
+
+
+            <div className="flex items-center justify-between rounded-xl bg-slate-50 p-4">
+
+              <div>
+
+                <p className="font-semibold text-slate-900">
+                  Bewerbungen starten
+                </p>
+
+                <p className="text-sm text-slate-500">
+                  MietGate übernimmt deine Bewerbungen.
+                </p>
+
+              </div>
+
+
+              <span className="font-semibold text-teal-600">
+                {applications}
+              </span>
+
+
+            </div>
+
+
+
+
+          </div>
+
+
+        </Card>
 
 
 
@@ -486,8 +587,6 @@ export default function DashboardPage(){
 
 
         )}
-
-
 
 
 
