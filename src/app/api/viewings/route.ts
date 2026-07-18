@@ -3,39 +3,59 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 
 
-export async function POST(req: Request) {
+export async function POST(req:Request){
 
 
-  const body = await req.json();
-
-
-  console.log(
-    "NEUER TERMIN:",
-    body
-  );
+  const body =
+    await req.json();
 
 
 
-  const supabase = createAdminClient();
+  const supabase =
+    createAdminClient();
 
 
 
-  const { data, error } = await supabase
-    .from("viewings")
-    .insert({
 
-      user_id: body.user_id,
-      title: body.title,
-      address: body.address,
-      city: body.city,
-      listing_url: body.listing_url || null,
-      viewing_date: body.viewing_date,
-      viewing_time: body.viewing_time,
-      status: "pending"
+  const {
+    data,
+    error
+  } =
+    await supabase
+      .from("viewings")
+      .insert({
 
-    })
-    .select()
-    .single();
+        user_id:
+          body.user_id,
+
+        application_id:
+          body.application_id || null,
+
+        title:
+          body.title,
+
+        address:
+          body.address,
+
+        city:
+          body.city,
+
+        listing_url:
+          body.listing_url || null,
+
+        viewing_date:
+          body.viewing_date,
+
+        viewing_time:
+          body.viewing_time,
+
+
+        status:
+          "geplant"
+
+      })
+      .select()
+      .single();
 
 
 
@@ -45,7 +65,7 @@ export async function POST(req: Request) {
 
 
     console.error(
-      "VIEWING INSERT ERROR:",
+      "VIEWING CREATE ERROR",
       error
     );
 
@@ -60,8 +80,77 @@ export async function POST(req: Request) {
       }
     );
 
+  }
+
+
+
+
+
+
+
+  if(body.application_id){
+
+
+
+    const {
+      data:application
+    } =
+      await supabase
+        .from("applications")
+        .select("status")
+        .eq(
+          "id",
+          body.application_id
+        )
+        .single();
+
+
+
+
+
+
+    await supabase
+      .from("applications")
+      .update({
+
+        status:
+          "Besichtigung"
+
+      })
+      .eq(
+        "id",
+        body.application_id
+      );
+
+
+
+
+
+
+
+    await supabase
+      .from("application_history")
+      .insert({
+
+        application_id:
+          body.application_id,
+
+
+        old_status:
+          application?.status || null,
+
+
+        new_status:
+          "Besichtigung"
+
+      });
+
+
 
   }
+
+
+
 
 
 
@@ -82,37 +171,43 @@ export async function POST(req: Request) {
 
 
 
+
+
+
 export async function PATCH(req:Request){
 
 
-  const body = await req.json();
+  const body =
+    await req.json();
 
 
 
-  console.log(
-    "STATUS UPDATE:",
-    body
-  );
+  const supabase =
+    createAdminClient();
 
 
 
-  const supabase = createAdminClient();
+
+  const {
+    data,
+    error
+  } =
+    await supabase
+      .from("viewings")
+      .update({
+
+        status:
+          body.status
+
+      })
+      .eq(
+        "id",
+        body.id
+      )
+      .select()
+      .single();
 
 
-
-  const {data,error}=await supabase
-    .from("viewings")
-    .update({
-
-      status:body.status
-
-    })
-    .eq(
-      "id",
-      body.viewingId
-    )
-    .select()
-    .single();
 
 
 
@@ -122,7 +217,7 @@ export async function PATCH(req:Request){
 
 
     console.error(
-      "VIEWING UPDATE ERROR:",
+      "VIEWING UPDATE ERROR",
       error
     );
 
@@ -137,8 +232,8 @@ export async function PATCH(req:Request){
       }
     );
 
-
   }
+
 
 
 

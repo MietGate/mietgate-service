@@ -1,9 +1,11 @@
-import { createAdminClient } from "@/lib/supabase/admin";
+﻿import { createAdminClient } from "@/lib/supabase/admin";
 
 
 export async function getCustomerDetail(id:string){
 
+
   const supabase = createAdminClient();
+
 
 
   const { data: profile, error: profileError } = await supabase
@@ -11,6 +13,7 @@ export async function getCustomerDetail(id:string){
     .select("*")
     .eq("id", id)
     .single();
+
 
 
   if(profileError){
@@ -22,7 +25,9 @@ export async function getCustomerDetail(id:string){
 
     return null;
 
-}
+  }
+
+
 
 
 
@@ -36,6 +41,10 @@ export async function getCustomerDetail(id:string){
 
 
 
+
+
+
+
   const { data: applications } = await supabase
     .from("applications")
     .select("*")
@@ -46,13 +55,33 @@ export async function getCustomerDetail(id:string){
 
 
 
+
+
+
+
+  const { data: viewings } = await supabase
+    .from("viewings")
+    .select("*")
+    .eq("user_id", id)
+    .order("created_at", {
+      ascending:false
+    });
+
+
+
+
+
+
+
   return {
 
     profile,
 
     documents: documents || [],
 
-    applications: applications || []
+    applications: applications || [],
+
+    viewings: viewings || []
 
   };
 

@@ -1,79 +1,74 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
+
 import {
   Menu,
   X,
   LayoutDashboard,
+  CalendarDays,
   User,
+  Search,
   FileText,
   ClipboardList,
   Settings,
 } from "lucide-react";
 
-import LogoutButton from "@/components/auth/LogoutButton";
-import Logo from "@/components/brand/Logo";
 
 
 const navigation = [
+
   {
     name: "Dashboard",
     href: "/dashboard",
     icon: LayoutDashboard,
   },
+
   {
-    name: "Profil",
-    href: "/profil",
-    icon: User,
+    name: "Kalender",
+    href: "/kalender",
+    icon: CalendarDays,
   },
-  {
-    name: "Dokumente",
-    href: "/dokumente",
-    icon: FileText,
-  },
+
   {
     name: "Bewerbungen",
     href: "/bewerbungen",
     icon: ClipboardList,
   },
+
+  {
+    name: "Dokumente",
+    href: "/dokumente",
+    icon: FileText,
+  },
+
+  {
+    name: "Mein Profil",
+    href: "/profil",
+    icon: User,
+  },
+
+  {
+    name: "Suchprofil",
+    href: "/suchprofil",
+    icon: Search,
+  },
+
   {
     name: "Einstellungen",
     href: "/einstellungen",
     icon: Settings,
   },
+
 ];
 
 
-export default function MobileMenu() {
+
+export default function MobileMenu(){
 
 
   const [open,setOpen] = useState(false);
-
-
-
-  useEffect(()=>{
-
-    if(open){
-
-      document.body.style.overflow="hidden";
-
-    }else{
-
-      document.body.style.overflow="auto";
-
-    }
-
-
-    return ()=>{
-
-      document.body.style.overflow="auto";
-
-    };
-
-
-  },[open]);
-
 
 
 
@@ -83,13 +78,16 @@ export default function MobileMenu() {
 
 
       <button
+
         onClick={()=>setOpen(true)}
+
         className="
         rounded-xl
         p-2
         text-slate-600
         hover:bg-slate-100
         "
+
       >
 
         <Menu size={24}/>
@@ -99,34 +97,40 @@ export default function MobileMenu() {
 
 
 
+
       {open && (
+
 
         <div className="fixed inset-0 z-50">
 
 
           <div
+
             onClick={()=>setOpen(false)}
+
             className="
             absolute
             inset-0
             bg-black/30
             "
+
           />
 
 
 
 
+
           <aside
+
             className="
             relative
-            flex
             h-full
-            w-[280px]
-            flex-col
+            w-72
             bg-white
             p-6
             shadow-xl
             "
+
           >
 
 
@@ -134,13 +138,21 @@ export default function MobileMenu() {
             <div className="flex items-center justify-between">
 
 
-              <Logo width={140}/>
+              <h2 className="text-xl font-bold">
+
+                Miet
+                <span className="text-teal-600">
+                  Gate
+                </span>
+
+              </h2>
 
 
 
               <button
+
                 onClick={()=>setOpen(false)}
-                className="rounded-lg p-2 hover:bg-slate-100"
+
               >
 
                 <X size={24}/>
@@ -149,6 +161,8 @@ export default function MobileMenu() {
 
 
             </div>
+
+
 
 
 
@@ -165,10 +179,15 @@ export default function MobileMenu() {
 
                 return (
 
+
                   <Link
+
                     key={item.name}
+
                     href={item.href}
+
                     onClick={()=>setOpen(false)}
+
                     className="
                     flex
                     items-center
@@ -179,16 +198,20 @@ export default function MobileMenu() {
                     text-slate-700
                     hover:bg-slate-100
                     "
+
                   >
+
 
                     <Icon size={20}/>
 
-                    <span className="font-medium">
+
+                    <span>
                       {item.name}
                     </span>
 
 
                   </Link>
+
 
                 );
 
@@ -200,24 +223,12 @@ export default function MobileMenu() {
 
 
 
-
-
-            <div className="mt-auto">
-
-
-              <LogoutButton/>
-
-
-            </div>
-
-
-
-
           </aside>
 
 
 
         </div>
+
 
       )}
 
@@ -226,5 +237,6 @@ export default function MobileMenu() {
     </>
 
   );
+
 
 }

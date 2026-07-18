@@ -1,4 +1,4 @@
-import { createAdminClient } from "@/lib/supabase/admin";
+﻿import { createAdminClient } from "@/lib/supabase/admin";
 
 
 export async function getProfile(
@@ -19,7 +19,11 @@ export async function getProfile(
       rooms,
       move_in_date,
       household,
-      income
+      income,
+      pets,
+      smoker,
+      application_text,
+      application_text_updated_at
     `)
     .eq("id", id)
     .single();

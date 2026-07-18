@@ -1,101 +1,46 @@
-import { getAdminCustomers } from "@/services/admin/customers";
+﻿import { getAdminCustomers } from "@/services/admin/customers";
+import CustomerCRM from "@/components/admin/CustomerCRM";
 
 
 export default async function KundenPage() {
 
+
   const customers = await getAdminCustomers();
+
 
 
   return (
 
-    <div>
-
-      <h1 className="text-3xl font-bold">
-        Kunden
-      </h1>
+    <main className="min-h-screen bg-slate-50 p-8">
 
 
-      <div className="mt-8 overflow-hidden rounded-3xl bg-white shadow">
-
-        <table className="w-full">
-
-          <thead className="bg-slate-100">
-
-            <tr>
-
-              <th className="p-4 text-left">
-                Name
-              </th>
-
-              <th className="p-4 text-left">
-                Stadt
-              </th>
-
-              <th className="p-4 text-left">
-                Budget
-              </th>
-
-              <th className="p-4 text-left">
-                Profil
-              </th>
-
-            </tr>
-
-          </thead>
+      <div className="mx-auto max-w-7xl">
 
 
-          <tbody>
+        <h1 className="text-3xl font-bold text-slate-900">
+          Kunden CRM
+        </h1>
 
 
-            {customers.map((customer:any)=>(
-
-              <tr
-              key={customer.id}
-              className="border-t"
-              >
-
-                <td className="p-4">
-                  {customer.full_name || "-"}
-                </td>
+        <p className="mt-2 text-slate-600">
+          Kundenverwaltung, Suchprofile und Bewerbungsprozesse
+        </p>
 
 
-                <td className="p-4">
-                  {customer.city || "-"}
-                </td>
 
+        <div className="mt-8">
 
-                <td className="p-4">
-                  {customer.budget
-                    ? `${customer.budget} €`
-                    : "-"
-                  }
-                </td>
+          <CustomerCRM
+            customers={customers}
+          />
 
-
-                <td className="p-4">
-
-                  {customer.profile_completed
-                    ? "✅ Fertig"
-                    : "⏳ Offen"
-                  }
-
-                </td>
-
-
-              </tr>
-
-            ))}
-
-
-          </tbody>
-
-        </table>
+        </div>
 
 
       </div>
 
 
-    </div>
+    </main>
 
   );
 

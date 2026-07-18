@@ -4,7 +4,9 @@ import Logo from "@/components/brand/Logo";
 
 import {
   LayoutDashboard,
+  CalendarDays,
   User,
+  Search,
   FileText,
   ClipboardList,
   Settings,
@@ -12,50 +14,70 @@ import {
 
 
 const navigation = [
+
   {
-    name:"Dashboard",
-    href:"/dashboard",
-    icon:LayoutDashboard,
+    name: "Dashboard",
+    href: "/dashboard",
+    icon: LayoutDashboard,
   },
+
   {
-    name:"Profil",
-    href:"/profil",
-    icon:User,
+    name: "Kalender",
+    href: "/kalender",
+    icon: CalendarDays,
   },
+
   {
-    name:"Dokumente",
-    href:"/dokumente",
-    icon:FileText,
+    name: "Bewerbungen",
+    href: "/bewerbungen",
+    icon: ClipboardList,
   },
+
   {
-    name:"Bewerbungen",
-    href:"/bewerbungen",
-    icon:ClipboardList,
+    name: "Dokumente",
+    href: "/dokumente",
+    icon: FileText,
   },
+
   {
-    name:"Einstellungen",
-    href:"/einstellungen",
-    icon:Settings,
+    name: "Mein Profil",
+    href: "/profil",
+    icon: User,
   },
+
+  {
+    name: "Suchprofil",
+    href: "/suchprofil",
+    icon: Search,
+  },
+
+  {
+    name: "Einstellungen",
+    href: "/einstellungen",
+    icon: Settings,
+  },
+
 ];
 
 
-export default function Sidebar(){
+
+export default function Sidebar() {
+
 
   return (
 
     <aside
       className="
-      flex
+      hidden
       min-h-screen
       w-72
-      shrink-0
       flex-col
       border-r
       border-slate-200
       bg-white
       px-6
       py-8
+      md:flex
       "
     >
 
@@ -64,13 +86,13 @@ export default function Sidebar(){
 
         <Logo width={150}/>
 
-
         <p className="mt-2 text-sm text-slate-500">
           Bewerberservice
         </p>
 
-
       </div>
+
+
 
 
 
@@ -80,14 +102,17 @@ export default function Sidebar(){
         {navigation.map((item)=>{
 
 
-          const Icon=item.icon;
+          const Icon = item.icon;
 
 
           return (
 
             <Link
+
               key={item.name}
+
               href={item.href}
+
               className="
               flex
               items-center
@@ -96,8 +121,11 @@ export default function Sidebar(){
               px-4
               py-3
               text-slate-600
+              transition
               hover:bg-slate-100
+              hover:text-slate-900
               "
+
             >
 
               <Icon size={20}/>
@@ -121,26 +149,40 @@ export default function Sidebar(){
 
 
 
+
+
+
       <div className="mt-auto space-y-4">
 
 
-        <div className="rounded-2xl bg-teal-50 p-4">
+        <div
+          className="
+          rounded-2xl
+          bg-teal-50
+          p-4
+          "
+        >
 
           <p className="text-sm font-semibold text-teal-800">
             MietGate Premium
           </p>
 
+
           <p className="mt-1 text-xs text-teal-700">
             Deine Mietbewerbungen professionell verwalten.
           </p>
 
+
         </div>
 
 
-        <LogoutButton/>
+
+
+        <LogoutButton />
 
 
       </div>
+
 
 
     </aside>

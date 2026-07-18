@@ -62,6 +62,7 @@ export default function DashboardPage(){
 
       if(profile){
 
+
         setName(profile.full_name || "");
 
 
@@ -127,6 +128,7 @@ export default function DashboardPage(){
 
 
 
+
       const {data:viewingData}=await supabase
         .from("viewings")
         .select(`
@@ -151,7 +153,6 @@ export default function DashboardPage(){
       setViewing(viewingData);
 
 
-
     }
 
 
@@ -164,29 +165,37 @@ export default function DashboardPage(){
 
 
 
-  async function updateViewingStatus(status:string){
+
+  async function updateViewingStatus(
+    status:string
+  ){
 
 
-    if(!viewing) return;
+    if(!viewing)
+      return;
 
 
 
-    await fetch("/api/viewings",{
+    await fetch(
+      "/api/viewings",
+      {
 
-      method:"PATCH",
+        method:"PATCH",
 
-      headers:{
-        "Content-Type":"application/json"
-      },
+        headers:{
+          "Content-Type":"application/json"
+        },
 
-      body:JSON.stringify({
+        body:JSON.stringify({
 
-        viewingId:viewing.id,
-        status
+          id:viewing.id,
 
-      })
+          status
 
-    });
+        })
+
+      }
+    );
 
 
 
@@ -199,12 +208,16 @@ export default function DashboardPage(){
 
 
 
+
   return (
+
 
     <DashboardShell>
 
 
       <div className="space-y-8">
+
+
 
 
 
@@ -236,8 +249,9 @@ export default function DashboardPage(){
 
 
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
 
           <Card className="p-6">
@@ -344,12 +358,15 @@ export default function DashboardPage(){
 
 
 
+
+
             <div className="mt-6">
 
 
               <h3 className="text-xl font-bold">
                 {viewing.title}
               </h3>
+
 
 
 
@@ -360,6 +377,7 @@ export default function DashboardPage(){
                 {viewing.address}, {viewing.city}
 
               </p>
+
 
 
 
@@ -376,8 +394,9 @@ export default function DashboardPage(){
 
 
 
-
             </div>
+
+
 
 
 
@@ -387,8 +406,15 @@ export default function DashboardPage(){
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
 
 
+
               <button
-                onClick={()=>updateViewingStatus("accepted")}
+
+                onClick={()=>
+                  updateViewingStatus(
+                    "bestätigt"
+                  )
+                }
+
                 className="
                 rounded-xl
                 bg-teal-600
@@ -397,16 +423,28 @@ export default function DashboardPage(){
                 text-white
                 hover:bg-teal-700
                 "
+
               >
-                Termin zusagen
+
+                Termin bestätigen
+
               </button>
 
 
 
 
 
+
+
+
               <button
-                onClick={()=>updateViewingStatus("declined")}
+
+                onClick={()=>
+                  updateViewingStatus(
+                    "abgesagt"
+                  )
+                }
+
                 className="
                 rounded-xl
                 bg-red-600
@@ -415,12 +453,19 @@ export default function DashboardPage(){
                 text-white
                 hover:bg-red-700
                 "
+
               >
+
                 Termin absagen
+
               </button>
 
 
+
             </div>
+
+
+
 
 
 
@@ -444,10 +489,14 @@ export default function DashboardPage(){
 
 
 
+
+
+
       </div>
 
 
     </DashboardShell>
+
 
   );
 
