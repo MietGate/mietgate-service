@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Bell, UserCircle, LogOut } from "lucide-react";
 import MobileMenu from "./MobileMenu";
 import { createClient } from "@/lib/supabase/client";
@@ -8,8 +9,69 @@ import { useRouter } from "next/navigation";
 
 export default function Topbar() {
 
-
   const router = useRouter();
+
+  const [name, setName] = useState("Kunde");
+  const [role, setRole] = useState("MietGate Nutzer");
+
+
+  useEffect(() => {
+
+    async function loadUser() {
+
+      const supabase = createClient();
+
+
+      const {
+        data:{
+          user
+        }
+      } = await supabase.auth.getUser();
+
+
+      if(!user) return;
+
+
+
+      const {
+        data:profile
+      } = await supabase
+        .from("profiles")
+        .select("full_name, role")
+        .eq("id", user.id)
+        .single();
+
+
+
+      if(profile){
+
+        setName(
+          profile.full_name || "Kunde"
+        );
+
+
+        if(profile.role === "admin"){
+
+          setRole("Administrator");
+
+        }else{
+
+          setRole("MietGate Nutzer");
+
+        }
+
+      }
+
+
+    }
+
+
+    loadUser();
+
+
+  },[]);
+
+
 
 
   async function logout(){
@@ -23,6 +85,7 @@ export default function Topbar() {
     router.refresh();
 
   }
+
 
 
 
@@ -45,7 +108,6 @@ export default function Topbar() {
     >
 
 
-
       <div className="flex min-w-0 items-center gap-3">
 
 
@@ -57,9 +119,7 @@ export default function Topbar() {
 
 
 
-
         <div className="min-w-0">
-
 
           <h2
             className="
@@ -75,7 +135,6 @@ export default function Topbar() {
           </h2>
 
 
-
           <p className="hidden text-sm text-slate-500 sm:block">
             Dein Mietbewerbungsservice
           </p>
@@ -85,7 +144,6 @@ export default function Topbar() {
 
 
       </div>
-
 
 
 
@@ -112,7 +170,6 @@ export default function Topbar() {
 
 
 
-
         <div
           className="
           hidden
@@ -134,14 +191,13 @@ export default function Topbar() {
 
           <div>
 
-
             <p className="text-sm font-medium text-slate-900">
-              Kunde
+              {name}
             </p>
 
 
             <p className="text-xs text-slate-500">
-              MietGate Nutzer
+              {role}
             </p>
 
 
@@ -149,8 +205,6 @@ export default function Topbar() {
 
 
         </div>
-
-
 
 
 
@@ -182,7 +236,6 @@ export default function Topbar() {
 
 
       </div>
-
 
 
     </header>
