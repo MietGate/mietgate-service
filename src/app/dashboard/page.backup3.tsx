@@ -14,12 +14,11 @@ import {
   ClipboardCheck,
   CalendarDays,
   MapPin,
-  CheckCircle2,
-  Clock3,
 } from "lucide-react";
 
 
 export default function DashboardPage(){
+
 
   const [name,setName] = useState("");
   const [documents,setDocuments] = useState(0);
@@ -29,11 +28,15 @@ export default function DashboardPage(){
   const [viewing,setViewing] = useState<any>(null);
 
 
+
   useEffect(()=>{
+
 
     async function load(){
 
+
       const supabase = createClient();
+
 
 
       const {
@@ -43,7 +46,9 @@ export default function DashboardPage(){
       } = await supabase.auth.getUser();
 
 
+
       if(!user) return;
+
 
 
 
@@ -57,7 +62,9 @@ export default function DashboardPage(){
 
       if(profile){
 
+
         setName(profile.full_name || "");
+
 
 
         const fields=[
@@ -70,8 +77,10 @@ export default function DashboardPage(){
         ];
 
 
+
         const filled =
           fields.filter(Boolean).length;
+
 
 
         setProgress(
@@ -81,6 +90,7 @@ export default function DashboardPage(){
         );
 
       }
+
 
 
 
@@ -99,6 +109,7 @@ export default function DashboardPage(){
 
 
 
+
       const {data:apps}=await supabase
         .from("applications")
         .select("id")
@@ -109,6 +120,7 @@ export default function DashboardPage(){
       setApplications(
         apps?.length || 0
       );
+
 
 
 
@@ -137,6 +149,7 @@ export default function DashboardPage(){
 
       setViewing(viewingData);
 
+
     }
 
 
@@ -148,42 +161,68 @@ export default function DashboardPage(){
 
 
 
-  async function updateViewingStatus(status:string){
+
+
+
+  async function updateViewingStatus(
+    status:string
+  ){
+
 
     if(!viewing)
       return;
 
 
+
     await fetch(
       "/api/viewings",
       {
+
         method:"PATCH",
+
         headers:{
           "Content-Type":"application/json"
         },
+
         body:JSON.stringify({
+
           id:viewing.id,
+
           status
+
         })
+
       }
     );
 
 
+
     window.location.reload();
+
 
   }
 
 
 
 
+
+
+
   return (
 
+
     <DashboardShell>
+
 
       <div className="space-y-8">
 
 
+
+
+
+
         <div>
+
 
           <h1
             className="
@@ -197,11 +236,16 @@ export default function DashboardPage(){
           </h1>
 
 
+
           <p className="mt-2 text-slate-600">
             Wir kümmern uns um deine Mietbewerbungen.
           </p>
 
+
         </div>
+
+
+
 
 
 
@@ -209,13 +253,16 @@ export default function DashboardPage(){
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
 
+
           <Card className="p-6">
 
             <Home className="text-teal-600"/>
 
+
             <h3 className="mt-4 font-semibold">
               Suchprofil
             </h3>
+
 
             <p className="mt-2 text-3xl font-bold">
               {progress}%
@@ -226,7 +273,10 @@ export default function DashboardPage(){
               <Progress value={progress}/>
             </div>
 
+
           </Card>
+
+
 
 
 
@@ -234,17 +284,23 @@ export default function DashboardPage(){
 
           <Card className="p-6">
 
+
             <FileText className="text-teal-600"/>
+
 
             <h3 className="mt-4 font-semibold">
               Dokumente
             </h3>
 
+
             <p className="mt-2 text-3xl font-bold">
               {documents}
             </p>
 
+
           </Card>
+
+
 
 
 
@@ -252,71 +308,137 @@ export default function DashboardPage(){
 
           <Card className="p-6">
 
+
             <ClipboardCheck className="text-teal-600"/>
+
 
             <h3 className="mt-4 font-semibold">
               Bewerbungen
             </h3>
 
+
             <p className="mt-2 text-3xl font-bold">
               {applications}
             </p>
 
+
           </Card>
+
+
 
 
         </div>
 
 
+
+
+
+
+
         <Card
           className="p-6 sm:p-8"
-          title="Dein MietGate Status"
-          description="Wir begleiten dich bei deiner Wohnungssuche."
+          title="Deine nächsten Schritte"
+          description="Erledige diese Punkte, um deine Wohnungschancen zu erhöhen."
         >
 
-          <div className="grid gap-4 sm:grid-cols-2">
+
+          <div className="space-y-4">
 
 
-            <div className="rounded-2xl bg-teal-50 p-5">
 
-              <p className="text-sm text-teal-700">
-                Dein Tarif
-              </p>
+            <div className="flex items-center justify-between rounded-xl bg-slate-50 p-4">
 
-              <p className="mt-2 text-2xl font-bold text-slate-900">
-                Premium
-              </p>
+              <div>
 
-              <p className="mt-1 text-sm text-slate-600">
-                5 Besichtigungen garantiert
-              </p>
+                <p className="font-semibold text-slate-900">
+                  Suchprofil vervollständigen
+                </p>
+
+                <p className="text-sm text-slate-500">
+                  Deine Wünsche helfen uns passende Wohnungen zu finden.
+                </p>
+
+              </div>
+
+
+              <span className="font-semibold text-teal-600">
+                {progress}%
+              </span>
+
 
             </div>
 
 
-            <div className="rounded-2xl bg-slate-50 p-5">
 
-              <p className="text-sm text-slate-500">
-                Bewerbungsstatus
-              </p>
 
-              <p className="mt-2 flex items-center gap-2 text-2xl font-bold text-slate-900">
-                <Clock3 className="text-teal-600"/>
-                Aktiv
-              </p>
 
-              <p className="mt-1 text-sm text-slate-600">
-                MietGate sucht passende Wohnungen
-              </p>
+
+            <div className="flex items-center justify-between rounded-xl bg-slate-50 p-4">
+
+              <div>
+
+                <p className="font-semibold text-slate-900">
+                  Dokumente hochladen
+                </p>
+
+                <p className="text-sm text-slate-500">
+                  Schufa, Einkommen und Nachweise vorbereiten.
+                </p>
+
+              </div>
+
+
+              <span className="font-semibold text-teal-600">
+                {documents}
+              </span>
+
 
             </div>
+
+
+
+
+
+
+            <div className="flex items-center justify-between rounded-xl bg-slate-50 p-4">
+
+              <div>
+
+                <p className="font-semibold text-slate-900">
+                  Bewerbungen starten
+                </p>
+
+                <p className="text-sm text-slate-500">
+                  MietGate übernimmt deine Bewerbungen.
+                </p>
+
+              </div>
+
+
+              <span className="font-semibold text-teal-600">
+                {applications}
+              </span>
+
+
+            </div>
+
+
 
 
           </div>
 
 
         </Card>
+
+
+
+
+
+
+
+
         {viewing && (
+
 
           <Card className="p-6 sm:p-8">
 
@@ -330,7 +452,12 @@ export default function DashboardPage(){
                 Nächste Besichtigung
               </h2>
 
+
             </div>
+
+
+
+
 
 
 
@@ -355,14 +482,17 @@ export default function DashboardPage(){
 
 
 
+
               <p className="mt-4">
                 📅 {viewing.viewing_date}
               </p>
 
 
+
               <p>
                 🕒 {viewing.viewing_time}
               </p>
+
 
 
             </div>
@@ -371,22 +501,22 @@ export default function DashboardPage(){
 
 
 
+
+
+
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+
 
 
               <button
 
-                onClick={() =>
+                onClick={()=>
                   updateViewingStatus(
                     "bestätigt"
                   )
                 }
 
                 className="
-                flex
-                items-center
-                justify-center
-                gap-2
                 rounded-xl
                 bg-teal-600
                 px-5
@@ -394,9 +524,8 @@ export default function DashboardPage(){
                 text-white
                 hover:bg-teal-700
                 "
-              >
 
-                <CheckCircle2 size={18}/>
+              >
 
                 Termin bestätigen
 
@@ -407,9 +536,11 @@ export default function DashboardPage(){
 
 
 
+
+
               <button
 
-                onClick={() =>
+                onClick={()=>
                   updateViewingStatus(
                     "abgesagt"
                   )
@@ -423,6 +554,7 @@ export default function DashboardPage(){
                 text-white
                 hover:bg-red-700
                 "
+
               >
 
                 Termin absagen
@@ -430,7 +562,12 @@ export default function DashboardPage(){
               </button>
 
 
+
             </div>
+
+
+
+
 
 
 
@@ -448,70 +585,8 @@ export default function DashboardPage(){
 
           </Card>
 
+
         )}
-
-
-
-
-
-        <Card
-          className="p-6 sm:p-8"
-          title="Deine nächsten Schritte"
-        >
-
-          <div className="space-y-4">
-
-
-            <div className="flex items-center gap-3">
-
-              <CheckCircle2
-                className="text-teal-600"
-                size={22}
-              />
-
-              <span>
-                MietGate Profil erstellt
-              </span>
-
-            </div>
-
-
-
-
-            <div className="flex items-center gap-3">
-
-              <CheckCircle2
-                className="text-teal-600"
-                size={22}
-              />
-
-              <span>
-                Dokumente verwalten
-              </span>
-
-            </div>
-
-
-
-
-            <div className="flex items-center gap-3">
-
-              <Clock3
-                className="text-slate-400"
-                size={22}
-              />
-
-              <span className="text-slate-600">
-                MietGate bewirbt dich bei passenden Wohnungen
-              </span>
-
-            </div>
-
-
-          </div>
-
-
-        </Card>
 
 
 
@@ -521,6 +596,8 @@ export default function DashboardPage(){
 
     </DashboardShell>
 
+
   );
 
-}        
+
+}
