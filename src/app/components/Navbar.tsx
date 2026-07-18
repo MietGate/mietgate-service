@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -10,27 +10,21 @@ export default function Navbar() {
 
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
 
-
-        {/* Logo */}
         <Link
           href="/"
           className="flex items-center"
         >
-
-         <Image
-  src="/logo-transparent.png"
-  alt="MietGate Logo"
-  width={220}
-  height={70}
-  priority
-  className="h-14 w-auto object-contain"
-/>
-
+          <Image
+            src="/logo-transparent.png"
+            alt="MietGate Logo"
+            width={220}
+            height={70}
+            priority
+            className="h-14 w-auto object-contain"
+          />
         </Link>
 
 
-
-        {/* Navigation */}
         <nav className="hidden items-center gap-10 md:flex">
 
           <Link
@@ -58,15 +52,24 @@ export default function Navbar() {
 
 
 
-        {/* Buttons */}
         <div className="hidden items-center gap-5 md:flex">
 
-          <button className="text-sm font-semibold text-slate-700">
+          <Link
+            href="/login"
+            className="
+              text-sm
+              font-semibold
+              text-slate-700
+              transition
+              hover:text-teal-600
+            "
+          >
             Login
-          </button>
+          </Link>
 
 
-          <button
+          <Link
+            href="/start"
             className="
               rounded-xl
               bg-teal-600
@@ -80,14 +83,16 @@ export default function Navbar() {
             "
           >
             Kostenlos starten
-          </button>
+          </Link>
 
         </div>
 
 
 
-        {/* Mobile */}
-        <button className="md:hidden">
+        <button
+          className="md:hidden"
+          aria-label="Menü öffnen"
+        >
           <Menu
             size={28}
             className="text-slate-700"

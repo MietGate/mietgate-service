@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   Check,
@@ -25,18 +26,17 @@ const plans = [
       "Geld-zurück-Garantie",
       "Jederzeit kündbar",
     ],
-    button:
-      "Basic starten",
-    popular: false,
+    button:"Basic starten",
+    popular:false,
   },
   {
-    name: "MietGate Premium",
+    name:"MietGate Premium",
     description:
       "Für Bewerber, die maximale Unterstützung bei der Wohnungssuche möchten.",
-    price: "49€",
+    price:"49€",
     guarantee:
       "Mindestens 5 Besichtigungstermine garantiert",
-    features: [
+    features:[
       "Alles aus Basic",
       "Priorisierte Bearbeitung",
       "Schnellere Unterstützung",
@@ -45,229 +45,155 @@ const plans = [
       "Geld-zurück-Garantie",
       "Jederzeit kündbar",
     ],
-    button:
-      "Premium starten",
-    popular: true,
+    button:"Premium starten",
+    popular:true,
   },
 ];
 
 
-export default function PricingSection() {
-
-  return (
+export default function PricingSection(){
 
-    <section className="bg-slate-50 px-6 py-24">
+return (
 
-      <div className="mx-auto max-w-7xl">
+<section id="preise" className="bg-slate-50 px-6 py-24">
 
+<div className="mx-auto max-w-7xl">
 
-        <motion.div
-          initial={{
-            opacity:0,
-            y:30,
-          }}
-          whileInView={{
-            opacity:1,
-            y:0,
-          }}
-          viewport={{
-            once:true,
-          }}
-          className="mx-auto max-w-3xl text-center"
-        >
+<motion.div
+initial={{opacity:0,y:30}}
+whileInView={{opacity:1,y:0}}
+viewport={{once:true}}
+className="mx-auto max-w-3xl text-center"
+>
 
-          <p className="text-sm font-semibold text-teal-600">
-            Preise
-          </p>
+<p className="text-sm font-semibold text-teal-600">
+Preise
+</p>
 
-          <h2 className="mt-4 text-4xl font-bold text-slate-900 sm:text-5xl">
-            Wähle deinen MietGate Service
-          </h2>
+<h2 className="mt-4 text-4xl font-bold text-slate-900 sm:text-5xl">
+Wähle deinen MietGate Service
+</h2>
 
-          <p className="mt-5 text-lg text-slate-600">
-            Wir übernehmen deine Mietbewerbungen,
-            damit du dich auf dein neues Zuhause konzentrieren kannst.
-          </p>
+<p className="mt-5 text-lg text-slate-600">
+Wir übernehmen deine Mietbewerbungen,
+damit du dich auf dein neues Zuhause konzentrieren kannst.
+</p>
 
-        </motion.div>
+</motion.div>
 
 
+<div className="mt-14 grid gap-8 lg:grid-cols-2">
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-2">
+{plans.map((plan,index)=>(
 
+<motion.div
+key={plan.name}
+initial={{opacity:0,y:30}}
+whileInView={{opacity:1,y:0}}
+viewport={{once:true}}
+transition={{delay:index*0.15}}
+className={`rounded-3xl bg-white p-8 shadow-xl ${
+plan.popular
+? "border-2 border-teal-500"
+: "border border-slate-200"
+}`}
+>
 
-          {plans.map((plan,index)=>(
+{plan.popular && (
 
-            <motion.div
-              key={plan.name}
+<div className="mb-5 inline-flex items-center gap-2 rounded-full bg-teal-100 px-4 py-2 text-sm font-semibold text-teal-700">
 
-              initial={{
-                opacity:0,
-                y:30,
-              }}
+<Crown size={16}/>
+Empfohlen
 
-              whileInView={{
-                opacity:1,
-                y:0,
-              }}
+</div>
 
-              viewport={{
-                once:true,
-              }}
+)}
 
-              transition={{
-                delay:index * 0.15,
-              }}
 
-              className={`
-                rounded-3xl
-                bg-white
-                p-8
-                shadow-xl
-                ${
-                  plan.popular
-                  ? "border-2 border-teal-500"
-                  : "border border-slate-200"
-                }
-              `}
-            >
+<h3 className="text-2xl font-bold text-slate-900">
+{plan.name}
+</h3>
 
 
-              {plan.popular && (
+<p className="mt-3 text-slate-600">
+{plan.description}
+</p>
 
-                <div className="
-                  mb-5
-                  inline-flex
-                  items-center
-                  gap-2
-                  rounded-full
-                  bg-teal-100
-                  px-4
-                  py-2
-                  text-sm
-                  font-semibold
-                  text-teal-700
-                ">
 
-                  <Crown size={16}/>
-                  Empfohlen
+<div className="mt-6 text-5xl font-bold text-slate-900">
+{plan.price}
 
-                </div>
+<span className="text-lg font-normal text-slate-500">
+/Monat
+</span>
 
-              )}
+</div>
 
 
+<div className="mt-6 flex items-center gap-3 rounded-2xl bg-teal-50 p-4">
 
-              <h3 className="text-2xl font-bold text-slate-900">
-                {plan.name}
-              </h3>
+<ShieldCheck
+className="text-teal-600"
+size={26}
+/>
 
+<span className="font-semibold text-teal-700">
+{plan.guarantee}
+</span>
 
-              <p className="mt-3 text-slate-600">
-                {plan.description}
-              </p>
+</div>
 
 
+<div className="mt-8 space-y-4">
 
-              <div className="mt-6 text-5xl font-bold text-slate-900">
+{plan.features.map(feature=>(
 
-                {plan.price}
+<div
+key={feature}
+className="flex items-center gap-3"
+>
 
-                <span className="text-lg font-normal text-slate-500">
-                  /Monat
-                </span>
+<Check
+size={20}
+className="text-teal-600"
+/>
 
-              </div>
+<span className="text-slate-700">
+{feature}
+</span>
 
+</div>
 
+))}
 
-              {/* Garantie */}
-              <div className="
-                mt-6
-                flex
-                items-center
-                gap-3
-                rounded-2xl
-                bg-teal-50
-                p-4
-              ">
+</div>
 
-                <ShieldCheck
-                  className="text-teal-600"
-                  size={26}
-                />
 
-                <span className="font-semibold text-teal-700">
-                  {plan.guarantee}
-                </span>
+<Link
+href="/start"
+className={`mt-8 block w-full rounded-xl px-6 py-4 text-center font-semibold transition ${
+plan.popular
+? "bg-teal-600 text-white hover:bg-teal-700"
+: "bg-slate-900 text-white hover:bg-slate-800"
+}`}
+>
 
-              </div>
+{plan.button}
 
+</Link>
 
 
-              <div className="mt-8 space-y-4">
+</motion.div>
 
-                {plan.features.map((feature)=>(
+))}
 
-                  <div
-                    key={feature}
-                    className="flex items-center gap-3"
-                  >
+</div>
 
-                    <Check
-                      size={20}
-                      className="text-teal-600"
-                    />
+</div>
 
-                    <span className="text-slate-700">
-                      {feature}
-                    </span>
+</section>
 
-                  </div>
+);
 
-                ))}
-
-              </div>
-
-
-
-              <button
-                className={`
-                  mt-8
-                  w-full
-                  rounded-xl
-                  px-6
-                  py-4
-                  font-semibold
-                  transition
-
-                  ${
-                    plan.popular
-                    ?
-                    "bg-teal-600 text-white hover:bg-teal-700"
-                    :
-                    "bg-slate-900 text-white hover:bg-slate-800"
-                  }
-                `}
-              >
-
-                {plan.button}
-
-              </button>
-
-
-            </motion.div>
-
-          ))}
-
-
-        </div>
-
-
-      </div>
-
-
-    </section>
-
-  );
 }
