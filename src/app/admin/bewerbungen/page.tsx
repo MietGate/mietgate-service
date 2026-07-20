@@ -1,26 +1,47 @@
-﻿import { createAdminClient } from "@/lib/supabase/admin";
-import ApplicationCRM from "@/components/admin/ApplicationCRM";
+﻿"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
+import { createClient } from "@/lib/supabase/client";
+import DashboardShell from "@/components/layout/DashboardShell";
+import Card from "@/components/ui/Card";
 
 
-export default async function AdminBewerbungenPage(){
+export default function BewerbungenPage(){
+
+  const [applications,setApplications] =
+    useState<any[]>([]);
 
 
-  const supabase = createAdminClient();
+
+  async function loadApplications(){
+
+    const supabase = createClient();
+
+
+    const {
+      data:{
+        user
+      }
+    } = await supabase.auth.getUser();
 
 
 
-  const { data: applications } =
+    if(!user) return;
+
+
+
+    const {
+      data
+    } =
     await supabase
       .from("applications")
-      .select(`
-        id,
-        apartment_title,
-        address,
-        city,
-        status,
-        created_at,
-        user_id
-      `)
+      .select("*")
+      .eq(
+        "user_id",
+        user.id
+      )
       .order(
         "created_at",
         {
@@ -29,47 +50,20 @@ export default async function AdminBewerbungenPage(){
       );
 
 
+    setApplications(data || []);
 
-
-  const userIds =
-    applications?.map(
-      item => item.user_id
-    ) || [];
-
-
-
-
-  const { data: profiles } =
-    await supabase
-      .from("profiles")
-      .select(`
-        id,
-        full_name,
-        email
-      `)
-      .in(
-        "id",
-        userIds
-      );
+  }
 
 
 
 
 
-  const list =
-    applications?.map(
-      application => ({
+  useEffect(()=>{
 
-        ...application,
+    loadApplications();
 
-        customer:
-          profiles?.find(
-            profile =>
-              profile.id === application.user_id
-          )
+  },[]);
 
-      })
-    ) || [];
 
 
 
@@ -77,39 +71,136 @@ export default async function AdminBewerbungenPage(){
 
   return (
 
-    <main className="min-h-screen bg-slate-50 p-8">
+    <DashboardShell>
 
 
-      <div className="mx-auto max-w-7xl">
+      <div className="space-y-8">
 
 
-        <h1 className="text-3xl font-bold text-slate-900">
-          Bewerbungen
-        </h1>
+        <div>
+
+          <h1 className="text-3xl font-bold text-slate-900">
+            Deine Bewerbungen
+          </h1>
 
 
-        <p className="mt-2 text-slate-600">
-          Bewerbungen verwalten und bearbeiten.
-        </p>
-
-
-
-        <div className="mt-8">
-
-          <ApplicationCRM
-            applications={list}
-          />
+          <p className="mt-2 text-slate-600">
+            Übersicht deiner Mietbewerbungen.
+          </p>
 
         </div>
 
 
 
+
+
+        <div className="space-y-5">
+
+
+        {
+          applications.map((app)=>(
+
+
+            <Link
+              key={app.id}
+              href={`/bewerbungen/${app.id}`}
+              className="block"
+            >
+
+
+              <Card
+                className="
+                cursor-pointer
+                transition
+                hover:shadow-lg
+                "
+              >
+
+
+                <h2 className="text-xl font-bold text-slate-900">
+
+                  {app.apartment_title || "Wohnung"}
+
+                </h2>
+
+
+
+                <p className="mt-2 text-slate-600">
+
+                  {app.city}
+
+                </p>
+
+
+
+                <p className="text-sm text-slate-500">
+
+                  {app.address}
+
+                </p>
+
+
+
+
+                <div className="mt-5">
+
+                  <span
+                    className="
+                    inline-flex
+                    rounded-full
+                    bg-teal-50
+                    px-4
+                    py-2
+                    text-sm
+                    font-medium
+                    text-teal-700
+                    "
+                  >
+
+                    {app.status}
+
+                  </span>
+
+
+                </div>
+
+
+              </Card>
+
+
+            </Link>
+
+
+          ))
+        }
+
+
+
+
+        {
+          applications.length === 0 &&
+
+          <Card>
+
+            <p className="text-slate-500">
+              Noch keine Bewerbungen vorhanden.
+            </p>
+
+          </Card>
+
+        }
+
+
+        </div>
+
+
       </div>
 
 
-    </main>
+    </DashboardShell>
 
   );
 
-
 }
+
+

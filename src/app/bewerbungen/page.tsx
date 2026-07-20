@@ -1,41 +1,34 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { createClient } from "@/lib/supabase/client";
-
+import DashboardShell from "@/components/layout/DashboardShell";
+import Card from "@/components/ui/Card";
 
 
 export default function BewerbungenPage(){
-
 
   const [applications,setApplications] =
     useState<any[]>([]);
 
 
 
-
   async function loadApplications(){
 
-
-    const supabase =
-      createClient();
-
+    const supabase = createClient();
 
 
     const {
       data:{
         user
       }
-    } =
-    await supabase.auth.getUser();
+    } = await supabase.auth.getUser();
 
 
 
     if(!user) return;
-    console.log("AKTUELLER USER:", user.id);
-
 
 
 
@@ -57,9 +50,7 @@ export default function BewerbungenPage(){
       );
 
 
-
     setApplications(data || []);
-
 
   }
 
@@ -77,27 +68,33 @@ export default function BewerbungenPage(){
 
 
 
+
   return (
 
-
-    <main className="min-h-screen bg-slate-50 p-6">
-
-
-      <div className="mx-auto max-w-5xl">
+    <DashboardShell>
 
 
-
-        <h1 className="text-3xl font-bold text-slate-900">
-
-          Deine Bewerbungen
-
-        </h1>
+      <div className="space-y-8">
 
 
+        <div>
+
+          <h1 className="text-3xl font-bold text-slate-900">
+            Deine Bewerbungen
+          </h1>
 
 
-        <div className="mt-8 space-y-5">
+          <p className="mt-2 text-slate-600">
+            Übersicht deiner Mietbewerbungen.
+          </p>
 
+        </div>
+
+
+
+
+
+        <div className="space-y-5">
 
 
         {
@@ -105,31 +102,22 @@ export default function BewerbungenPage(){
 
 
             <Link
-
               key={app.id}
-
               href={`/bewerbungen/${app.id}`}
-
+              className="block"
             >
 
 
-              <div
-
+              <Card
                 className="
-                rounded-3xl
-                bg-white
-                p-6
-                shadow
-                hover:shadow-xl
-                transition
                 cursor-pointer
+                transition
+                hover:shadow-lg
                 "
-
               >
 
 
-
-                <h2 className="text-xl font-bold">
+                <h2 className="text-xl font-bold text-slate-900">
 
                   {app.apartment_title || "Wohnung"}
 
@@ -137,7 +125,7 @@ export default function BewerbungenPage(){
 
 
 
-                <p className="mt-2">
+                <p className="mt-2 text-slate-600">
 
                   {app.city}
 
@@ -156,9 +144,7 @@ export default function BewerbungenPage(){
 
                 <div className="mt-5">
 
-
                   <span
-
                     className="
                     inline-flex
                     rounded-full
@@ -169,7 +155,6 @@ export default function BewerbungenPage(){
                     font-medium
                     text-teal-700
                     "
-
                   >
 
                     {app.status}
@@ -180,9 +165,7 @@ export default function BewerbungenPage(){
                 </div>
 
 
-
-
-              </div>
+              </Card>
 
 
             </Link>
@@ -193,23 +176,19 @@ export default function BewerbungenPage(){
 
 
 
+
         {
           applications.length === 0 &&
 
-          <div className="
-          rounded-3xl
-          bg-white
-          p-8
-          text-center
-          text-slate-500
-          ">
+          <Card>
 
-            Noch keine Bewerbungen vorhanden.
+            <p className="text-slate-500">
+              Noch keine Bewerbungen vorhanden.
+            </p>
 
-          </div>
+          </Card>
 
         }
-
 
 
         </div>
@@ -218,10 +197,11 @@ export default function BewerbungenPage(){
       </div>
 
 
-    </main>
-
+    </DashboardShell>
 
   );
 
-
 }
+
+
+

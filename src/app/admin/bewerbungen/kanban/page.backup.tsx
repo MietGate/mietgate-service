@@ -1,4 +1,4 @@
-import { createAdminClient } from "@/lib/supabase/admin";
+﻿import { createAdminClient } from "@/lib/supabase/admin";
 import ApplicationKanban from "@/components/admin/ApplicationKanban";
 
 
@@ -95,7 +95,7 @@ export default async function KanbanPage(){
 
 
         <p className="mt-2 text-slate-600">
-          Alle Bewerbungen im CRM �berblick.
+          Alle Bewerbungen im CRM Überblick.
         </p>
 
 
@@ -120,4 +120,7 @@ export default async function KanbanPage(){
 
 
 }
+
+
+
 

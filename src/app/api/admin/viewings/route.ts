@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { updateViewingStatus } from "@/services/admin/update-viewing";
 
 
@@ -18,3 +18,5 @@ export async function POST(req:Request){
   });
 
 }
+
+

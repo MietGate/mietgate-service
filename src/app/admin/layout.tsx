@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 export default function AdminLayout({
   children,
 }: {
@@ -11,3 +11,5 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
   },
 };
+
+

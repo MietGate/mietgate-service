@@ -1,4 +1,4 @@
-﻿import { createAdminClient } from "@/lib/supabase/admin";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { getProfile } from "@/services/admin/get-profile";
 import { updateApplicationStatus } from "@/services/admin/update-application";
 import { updateApplicationNote } from "@/services/admin/update-application-note";

@@ -142,128 +142,86 @@ export default function ApplicationCard({
 
 
         <div className="
-          mt-4
-          space-y-2
-          text-sm
-        ">
+  mt-4
+  space-y-2
+  text-sm
+">
 
+  <p>
+    &#128205; {app.city || "-"}
+  </p>
 
-          <p>
-            📍 {app.city || "-"}
-          </p>
+  <p>
+    &#128205; {app.address || "-"}
+  </p>
 
+  <p>
+    &#128100;{" "}
+    <span className="font-semibold">
+      {
+        app.customer?.full_name
+        ||
+        "Kein Kunde"
+      }
+    </span>
+  </p>
 
+  <p className="text-slate-500">
+    &#9201; Offen seit:
 
-          <p>
-            🏠 {app.address || "-"}
-          </p>
+    {" "}
 
+    {
+      daysSince(
+        app.created_at
+      )
+    }
 
+    {" "}
+    Tagen
+  </p>
 
-          <p>
-            👤
+  {
+    app.viewing_date && (
 
-            {" "}
+      <p className="text-teal-700">
 
-            <span className="font-semibold">
+        &#128197; Besichtigung:
 
-              {
-                app.customer?.full_name
-                ||
-                "Kein Kunde"
-              }
+        {" "}
 
-            </span>
+        {
+          new Date(
+            app.viewing_date
+          )
+          .toLocaleDateString(
+            "de-DE"
+          )
+        }
 
-          </p>
+      </p>
 
+    )
+  }
 
+</div>
 
+{
+  app.notes && (
 
+    <div className="
+      mt-3
+      rounded-xl
+      bg-slate-50
+      p-3
+      text-xs
+      text-slate-600
+    ">
+      &#128196; {app.notes}
+    </div>
 
-          <p className="text-slate-500">
-
-            ⏱ Offen seit:
-
-            {" "}
-
-            {
-              daysSince(
-                app.created_at
-              )
-            }
-
-            {" "}
-            Tagen
-
-          </p>
-
-
-
-
-
-          {
-            app.viewing_date && (
-
-              <p className="text-teal-700">
-
-                📅
-
-                {" "}
-
-                Besichtigung:
-
-                {" "}
-
-                {
-                  new Date(
-                    app.viewing_date
-                  )
-                  .toLocaleDateString(
-                    "de-DE"
-                  )
-                }
-
-              </p>
-
-            )
-          }
-
-
-
-
-
-
-          {
-            app.notes && (
-
-              <div className="
-                mt-3
-                rounded-xl
-                bg-slate-50
-                p-3
-                text-xs
-                text-slate-600
-              ">
-
-                📝
-
-                {" "}
-
-                {app.notes}
-
-
-              </div>
-
-            )
-          }
-
-
-
-
-
-        </div>
-
+  )
+}
 
 
       </Link>
@@ -274,3 +232,6 @@ export default function ApplicationCard({
   );
 
 }
+
+
+

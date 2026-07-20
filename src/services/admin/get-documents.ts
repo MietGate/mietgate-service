@@ -1,4 +1,4 @@
-import { createAdminClient } from "@/lib/supabase/admin";
+﻿import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function getDocuments(userId: string) {
 
@@ -26,3 +26,5 @@ export async function getDocuments(userId: string) {
   return data;
 
 }
+
+

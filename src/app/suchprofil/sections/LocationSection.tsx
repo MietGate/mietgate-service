@@ -1,4 +1,4 @@
-"use client";
+﻿﻿"use client";
 
 import {
   useEffect,
@@ -45,7 +45,6 @@ type Props = {
   )=>void;
 
 };
-
 
 
 
@@ -222,11 +221,13 @@ space-y-3
 ">
 
 
+
 <div className="
 flex
 justify-between
 items-center
 ">
+
 
 <label className="
 text-sm
@@ -250,6 +251,8 @@ text-teal-600
 
 
 </div>
+
+
 
 
 
@@ -294,6 +297,8 @@ accent-teal-600
 
 
 
+
+
 <div className="
 flex
 justify-between
@@ -301,15 +306,19 @@ text-xs
 text-slate-500
 ">
 
+
 <span>
 1 km
 </span>
+
 
 <span>
 50 km
 </span>
 
+
 </div>
+
 
 
 
@@ -331,6 +340,7 @@ Wohnungen werden in diesem Umkreis gesucht.
 
 
 
+
 </div>
 
 
@@ -341,3 +351,5 @@ Wohnungen werden in diesem Umkreis gesucht.
 
 
 }
+
+

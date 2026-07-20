@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 
 type Props = {
@@ -108,3 +108,5 @@ export default function ApplicationStats({
   );
 
 }
+
+

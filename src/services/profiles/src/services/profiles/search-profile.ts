@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 
 export async function getSearchProfile() {
   const supabase = await createClient();
@@ -54,3 +54,5 @@ export async function saveSearchProfile(values: any) {
 
   return data;
 }
+
+

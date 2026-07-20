@@ -1,4 +1,4 @@
-﻿import { createAdminClient } from "@/lib/supabase/admin";
+import { createAdminClient } from "@/lib/supabase/admin";
 import NewViewingForm from "@/app/admin/besichtigungen/neu/NewViewingForm";
 import Card from "@/components/ui/Card";
 

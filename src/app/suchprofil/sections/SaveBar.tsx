@@ -1,8 +1,7 @@
-"use client";
+﻿﻿"use client";
 
 
 import Button from "@/components/ui/Button";
-
 
 import type {
   SearchProfile
@@ -23,7 +22,6 @@ type Props = {
 
 
 
-
 export default function SaveBar({
 
 save,
@@ -36,59 +34,81 @@ profile
 
 
 
-
-
 const checks = [
 
 {
-label:"Wunschort",
-done:!!profile.city_id
+label:"Standort",
+weight:25,
+done:
+!!profile.city_id &&
+(
+!!profile.radius ||
+profile.districts.length > 0
+)
 },
+
 
 {
 label:"Wohnung",
-done:!!profile.rooms
+weight:25,
+done:
+!!profile.rooms &&
+!!profile.living_space
 },
+
 
 {
 label:"Budget",
-done:!!profile.warm_rent
+weight:20,
+done:
+!!profile.warm_rent
 },
+
 
 {
 label:"Einzug",
-done:!!profile.move_in_date
+weight:15,
+done:
+!!profile.move_in_date
 },
+
 
 {
 label:"Haushalt",
-done:!!profile.household_size
+weight:10,
+done:
+!!profile.household_size
+},
+
+
+{
+label:"Zusatzinfos",
+weight:5,
+done:
+profile.pets !== null
 }
+
 
 ];
 
 
 
 
-
-const completed =
-checks.filter(
-item=>item.done
-).length;
-
-
-
 const percentage =
-Math.round(
-(completed / checks.length) * 100
+checks.reduce(
+
+(sum,item)=>
+sum + (item.done ? item.weight : 0),
+
+0
+
 );
 
 
 
 
-
-
 return (
+
 
 <div className="
 sticky
@@ -104,13 +124,7 @@ shadow-xl
 
 
 
-
-
-<div className="
-space-y-4
-">
-
-
+<div className="space-y-4">
 
 
 
@@ -124,14 +138,16 @@ items-center
 mb-2
 ">
 
+
 <p className="
 font-semibold
 text-slate-900
 ">
 
-Suchprofil
+Suchprofil Qualität
 
 </p>
+
 
 
 <span className="
@@ -149,13 +165,13 @@ text-teal-600
 
 
 
-
 <div className="
 h-2
 rounded-full
 bg-slate-200
 overflow-hidden
 ">
+
 
 <div
 
@@ -173,12 +189,12 @@ width:`${percentage}%`
 
 />
 
-</div>
-
 
 </div>
 
 
+
+</div>
 
 
 
@@ -198,21 +214,23 @@ text-sm
 text-slate-500
 ">
 
-{percentage === 100
+
+{
+
+percentage === 100
 
 ?
 
-"Dein Profil ist vollständig."
+"Dein Suchprofil ist vollständig und bereit für Bewerbungen."
 
 :
 
-"Vervollständige dein Profil für bessere Chancen."
+"Vervollständige dein Profil für bessere Treffer."
 
 }
 
+
 </p>
-
-
 
 
 
@@ -248,10 +266,7 @@ saving
 
 
 
-
-
 </div>
-
 
 
 </div>
@@ -261,3 +276,7 @@ saving
 
 
 }
+
+
+
+

@@ -1,4 +1,4 @@
-import { createAdminClient } from "@/lib/supabase/admin";
+﻿import { createAdminClient } from "@/lib/supabase/admin";
 
 
 export async function updateApplicationNote(
@@ -35,3 +35,5 @@ export async function updateApplicationNote(
   return data;
 
 }
+
+

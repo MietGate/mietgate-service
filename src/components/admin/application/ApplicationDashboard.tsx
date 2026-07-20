@@ -399,7 +399,7 @@ export default function ApplicationDashboard({
               )
             }
 
-            placeholder="🔎 Bewerbung suchen..."
+            placeholder="&#128269; Bewerbung suchen..."
 
             className="
               rounded-xl
@@ -533,3 +533,5 @@ export default function ApplicationDashboard({
 
 
 }
+
+

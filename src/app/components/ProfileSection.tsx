@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -8,9 +8,9 @@ import {
 
 const features = [
   "Wunschwohnung und Suchkriterien hinterlegt",
-  "Pers�nliche Daten zentral verwaltet",
-  "Unterlagen f�r Bewerbungen vorbereitet",
-  "Bereit f�r professionelle Bewerbungen",
+  "Persï¿½nliche Daten zentral verwaltet",
+  "Unterlagen fï¿½r Bewerbungen vorbereitet",
+  "Bereit fï¿½r professionelle Bewerbungen",
 ];
 
 export default function ProfileSection() {
@@ -127,4 +127,7 @@ export default function ProfileSection() {
     </section>
   );
 }
+
+
+
 

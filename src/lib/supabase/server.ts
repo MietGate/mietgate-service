@@ -21,11 +21,15 @@ export async function createClient() {
               }
             );
           } catch {
-            // Cookies kÃ¶nnen in Server Components nicht immer gesetzt werden
+            // Cookies können in Server Components nicht immer gesetzt werden
           }
         },
       },
     }
   );
 }
+
+
+
+
 

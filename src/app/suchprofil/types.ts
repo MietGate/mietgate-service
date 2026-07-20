@@ -1,4 +1,4 @@
-export interface SearchProfile {
+﻿export interface SearchProfile {
 
 
   id?: string;
@@ -41,3 +41,5 @@ export interface SearchProfile {
 
 
 }
+
+

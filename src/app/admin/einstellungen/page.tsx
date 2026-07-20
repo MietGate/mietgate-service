@@ -1,4 +1,4 @@
-export default function AdminEinstellungenPage(){
+﻿export default function AdminEinstellungenPage(){
 
   return (
 
@@ -21,3 +21,5 @@ export default function AdminEinstellungenPage(){
   );
 
 }
+
+

@@ -1,4 +1,4 @@
-"use client";
+﻿﻿"use client";
 
 import Card from "@/components/ui/Card";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -400,3 +400,7 @@ Nutze den Regler oder gib die Wohnfläche direkt ein.
 
 
 }
+
+
+
+

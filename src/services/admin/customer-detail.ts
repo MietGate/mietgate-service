@@ -87,3 +87,6 @@ export async function getCustomerDetail(id:string){
 
 
 }
+
+
+

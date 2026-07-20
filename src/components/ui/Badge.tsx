@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 
 type BadgeProps = {
@@ -57,3 +57,5 @@ export default function Badge({
   );
 
 }
+
+

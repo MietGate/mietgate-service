@@ -1,4 +1,4 @@
-"use client";
+﻿﻿"use client";
 
 
 import Card from "@/components/ui/Card";
@@ -318,3 +318,7 @@ Ziehe den Regler oder gib den Betrag direkt ein.
 
 
 }
+
+
+
+

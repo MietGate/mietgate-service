@@ -1,5 +1,10 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
+
 import { createAdminClient } from "@/lib/supabase/admin";
+
+import {
+  resend
+} from "@/lib/email/resend";
 
 
 
@@ -8,7 +13,6 @@ export async function POST(req:Request){
 
   const body =
     await req.json();
-
 
 
   const supabase =
@@ -20,55 +24,47 @@ export async function POST(req:Request){
   const {
     data,
     error
-  } =
-    await supabase
-      .from("viewings")
-      .insert({
+  }
+  =
+  await supabase
+    .from("viewings")
+    .insert({
 
-        user_id:
-          body.user_id,
+      user_id:
+        body.user_id,
 
-        application_id:
-          body.application_id || null,
+      application_id:
+        body.application_id || null,
 
-        title:
-          body.title,
+      title:
+        body.title,
 
-        address:
-          body.address,
+      address:
+        body.address,
 
-        city:
-          body.city,
+      city:
+        body.city,
 
-        listing_url:
-          body.listing_url || null,
+      listing_url:
+        body.listing_url || null,
 
-        viewing_date:
-          body.viewing_date,
+      viewing_date:
+        body.viewing_date,
 
-        viewing_time:
-          body.viewing_time,
+      viewing_time:
+        body.viewing_time,
 
+      status:
+        "geplant"
 
-        status:
-          "geplant"
-
-      })
-      .select()
-      .single();
-
+    })
+    .select()
+    .single();
 
 
 
 
   if(error){
-
-
-    console.error(
-      "VIEWING CREATE ERROR",
-      error
-    );
-
 
     return NextResponse.json(
       {
@@ -85,72 +81,79 @@ export async function POST(req:Request){
 
 
 
-
-
-
-  if(body.application_id){
-
-
-
-    const {
-      data:application
-    } =
-      await supabase
-        .from("applications")
-        .select("status")
-        .eq(
-          "id",
-          body.application_id
-        )
-        .single();
+  const {
+    data:user
+  }
+  =
+  await supabase
+    .from("profiles")
+    .select(
+      "full_name,email"
+    )
+    .eq(
+      "id",
+      body.user_id
+    )
+    .single();
 
 
 
 
 
-
-    await supabase
-      .from("applications")
-      .update({
-
-        status:
-          "Besichtigung"
-
-      })
-      .eq(
-        "id",
-        body.application_id
-      );
+  if(
+    user?.email &&
+    resend
+  ){
 
 
+    await resend.emails.send({
+
+      from:
+        "MietGate <noreply@service.mietgate.de>",
 
 
+      to:
+        user.email,
 
 
-
-    await supabase
-      .from("application_history")
-      .insert({
-
-        application_id:
-          body.application_id,
+      subject:
+        "Deine MietGate Besichtigung wurde geplant",
 
 
-        old_status:
-          application?.status || null,
+      html:
 
+`
+<h1>Besichtigung geplant</h1>
 
-        new_status:
-          "Besichtigung"
+<p>
+Hallo ${user.full_name || "MietGate Nutzer"},
+</p>
 
-      });
+<p>
+Deine Besichtigung wurde erfolgreich geplant.
+</p>
 
+<p>
+<strong>${body.address}</strong>
+</p>
+
+<p>
+Datum: ${body.viewing_date}
+</p>
+
+<p>
+Uhrzeit: ${body.viewing_time}
+</p>
+
+<p>
+Dein MietGate Team
+</p>
+`
+
+    });
 
 
   }
-
-
-
 
 
 
@@ -165,7 +168,6 @@ export async function POST(req:Request){
 
 
 }
-
 
 
 
@@ -189,43 +191,36 @@ export async function PATCH(req:Request){
 
 
   const {
-    data,
-    error
-  } =
-    await supabase
-      .from("viewings")
-      .update({
+    data:viewing,
+    error:viewingError
+  }
+  =
+  await supabase
+    .from("viewings")
+    .update({
 
-        status:
-          body.status
+      status:
+        body.status
 
-      })
-      .eq(
-        "id",
-        body.id
-      )
-      .select()
-      .single();
-
-
-
+    })
+    .eq(
+      "id",
+      body.id
+    )
+    .select()
+    .single();
 
 
 
 
-  if(error){
 
-
-    console.error(
-      "VIEWING UPDATE ERROR",
-      error
-    );
+  if(viewingError){
 
 
     return NextResponse.json(
       {
         success:false,
-        error:error.message
+        error:viewingError.message
       },
       {
         status:500
@@ -239,13 +234,150 @@ export async function PATCH(req:Request){
 
 
 
+  if(
+    body.status === "abgelehnt" &&
+    viewing.application_id
+  ){
+
+
+    const {
+      data:application
+    }
+    =
+    await supabase
+      .from("applications")
+      .select(
+        "status,user_id"
+      )
+      .eq(
+        "id",
+        viewing.application_id
+      )
+      .single();
+
+
+
+
+
+    await supabase
+      .from("applications")
+      .update({
+
+        status:
+          "Absage"
+
+      })
+      .eq(
+        "id",
+        viewing.application_id
+      );
+
+
+
+
+
+
+    await supabase
+      .from("application_history")
+      .insert({
+
+        application_id:
+          viewing.application_id,
+
+        old_status:
+          application?.status || null,
+
+        new_status:
+          "Absage"
+
+      });
+
+
+
+
+
+
+    if(application){
+
+
+      await supabase
+        .from("notifications")
+        .insert({
+
+          user_id:
+            application.user_id,
+
+          title:
+            "Besichtigung abgesagt",
+
+          message:
+            "Ein Kunde hat eine Besichtigung abgesagt."
+
+        });
+
+
+
+      if(resend){
+
+
+        await resend.emails.send({
+
+          from:
+            "MietGate <noreply@service.mietgate.de>",
+
+
+          to:
+            "admin@mietgate.de",
+
+
+          subject:
+            "Besichtigung wurde abgesagt",
+
+
+          html:
+
+`
+<h1>Besichtigung abgesagt</h1>
+
+<p>
+Ein Kunde hat eine Besichtigung abgesagt.
+</p>
+
+<p>
+Application ID:
+${viewing.application_id}
+</p>
+
+`
+
+        });
+
+
+      }
+
+
+
+    }
+
+
+
+  }
+
+
+
+
+
   return NextResponse.json({
 
     success:true,
 
-    data
+    data:viewing
 
   });
 
 
+
 }
+
+
+

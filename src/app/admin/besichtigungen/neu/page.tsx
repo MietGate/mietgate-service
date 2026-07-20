@@ -1,4 +1,4 @@
-import { createAdminClient } from "@/lib/supabase/admin";
+﻿import { createAdminClient } from "@/lib/supabase/admin";
 import NewViewingForm from "./NewViewingForm";
 import Card from "@/components/ui/Card";
 
@@ -56,3 +56,6 @@ export default async function NeueBesichtigungPage(){
   );
 
 }
+
+
+

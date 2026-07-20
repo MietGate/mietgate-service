@@ -1,4 +1,4 @@
-import { createAdminClient } from "@/lib/supabase/admin";
+﻿import { createAdminClient } from "@/lib/supabase/admin";
 
 
 export async function updateViewingStatus(
@@ -193,3 +193,5 @@ export async function updateViewingStatus(
   return true;
 
 }
+
+
